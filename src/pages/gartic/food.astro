@@ -1,0 +1,145 @@
+---
+import Layout from '../../components/Layout.astro';
+import SearchBox from '../../components/SearchBox.tsx';
+import WordGrid from '../../components/WordGrid.tsx';
+import { garticWords } from '../../data/words/gartic';
+import { getWordsByCategory, groupWordsByDifficulty } from '../../lib/search';
+import { generateBreadcrumbSchema } from '../../lib/schema';
+
+const category = 'food';
+const words = getWordsByCategory(garticWords, category);
+const byDifficulty = groupWordsByDifficulty(words);
+
+const title = 'Gartic Food Words | Delicious Drawing Ideas | Word Genie';
+const description = 'Browse 50+ food and drink words for Gartic. From pizza to sushi, find perfect food drawing ideas for your game!';
+
+const breadcrumbs = [
+  { label: 'Home', url: '/' },
+  { label: 'Games', url: '/games' },
+  { label: 'Gartic', url: '/games/gartic' },
+  { label: 'Food', url: '/gartic/food' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="container-main py-4 text-sm">
+    <a href="/" class="text-blue-600 hover:underline">Home</a> /
+    <a href="/games" class="text-blue-600 hover:underline ml-1">Games</a> /
+    <a href="/games/gartic" class="text-blue-600 hover:underline ml-1">Gartic</a> /
+    <span class="text-gray-600 ml-1">Food</span>
+  </div>
+
+  <section class="bg-gradient-to-br from-orange-500 to-red-500 text-white py-12">
+    <div class="container-main">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🍕 Gartic Food Words</h1>
+      <p class="text-lg text-orange-100 mb-4">
+        {words.length}+ delicious food and drink drawing ideas
+      </p>
+      <p class="text-orange-100 max-w-2xl">
+        Food words are crowd favorites in Gartic! From simple fruits to international dishes, learn to draw mouth-watering meals that everyone recognizes instantly.
+      </p>
+    </div>
+  </section>
+
+  <div class="container-main py-12">
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-orange-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-orange-600">{words.length}</div>
+        <div class="text-sm text-gray-600">Food Words</div>
+      </div>
+      <div class="bg-yellow-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-yellow-600">{byDifficulty.easy.length}</div>
+        <div class="text-sm text-gray-600">Easy Foods</div>
+      </div>
+      <div class="bg-red-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-red-600">{byDifficulty.hard.length}</div>
+        <div class="text-sm text-gray-600">Complex Dishes</div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 mb-8 border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Why Food Words Are Great for Gartic</h2>
+      <p class="text-gray-700 mb-4">
+        Food words are universally loved in Gartic because everyone eats! Whether it's a simple apple or a complex croissant, food words appeal to all players and offer great variety in drawing difficulty.
+      </p>
+      <p class="text-gray-700">
+        The key to drawing food successfully is capturing recognizable colors and shapes. A yellow banana, round orange, red apple—color matters! For drinks, show the glass or cup shape with the liquid inside.
+      </p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Find Food Words</h2>
+      <SearchBox
+        client:load
+        words={words}
+        categories={['food']}
+        onSearch={(results) => {}}
+      />
+    </div>
+
+    <div class="space-y-8">
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">EASY</span>
+          Easy Foods ({byDifficulty.easy.length} words)
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Simple fruits, basic dishes, and recognizable foods that are quick to draw.
+        </p>
+        <WordGrid client:load words={byDifficulty.easy} compact={true} />
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-bold">MEDIUM</span>
+          Medium Foods ({byDifficulty.medium.length} words)
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Dishes with multiple components that require more detail to recognize.
+        </p>
+        <WordGrid client:load words={byDifficulty.medium} compact={true} />
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold">HARD</span>
+          Hard Foods ({byDifficulty.hard.length} words)
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Complex foods and pastries that challenge even experienced players.
+        </p>
+        <WordGrid client:load words={byDifficulty.hard} compact={true} />
+      </div>
+    </div>
+  </div>
+
+  <section class="bg-orange-50 py-12">
+    <div class="container-main">
+      <h2 class="text-3xl font-bold mb-8">🍳 Food Drawing Tips</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">Color Matters!</h3>
+          <p class="text-gray-700 mb-3">
+            Use color strategically. Red for apple, yellow for banana, orange for orange. Colors help guessers identify foods instantly, even with rough drawings.
+          </p>
+        </div>
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">Shape First</h3>
+          <p class="text-gray-700 mb-3">
+            Draw the overall shape before details. Pizza = triangle, donut = circle with hole, ice cream = cone + scoop. Then add details.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-orange-50 border-l-4 border-orange-600 p-6 rounded mt-8">
+    <p class="text-sm text-gray-700">
+      <strong>Disclaimer:</strong> Word Genie is not affiliated with Gartic, Gartic Inc.
+    </p>
+  </section>
+</Layout>

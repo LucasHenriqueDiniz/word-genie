@@ -1,0 +1,92 @@
+---
+import Layout from '../../components/Layout.astro';
+import SearchBox from '../../components/SearchBox.tsx';
+import WordGrid from '../../components/WordGrid.tsx';
+import { garticWords } from '../../data/words/gartic';
+import { getWordsByCategory, groupWordsByDifficulty } from '../../lib/search';
+import { generateBreadcrumbSchema } from '../../lib/schema';
+
+const category = 'actions';
+const words = getWordsByCategory(garticWords, category);
+const byDifficulty = groupWordsByDifficulty(words);
+
+const title = 'Gartic Action Words | Movement & Activity Drawing Ideas | Word Genie';
+const description = 'Browse 40+ action words for Gartic. Draw movements, emotions, and activities!';
+
+const breadcrumbs = [
+  { label: 'Home', url: '/' },
+  { label: 'Games', url: '/games' },
+  { label: 'Gartic', url: '/games/gartic' },
+  { label: 'Actions', url: '/gartic/actions' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="container-main py-4 text-sm">
+    <span class="text-gray-600">Gartic › Actions</span>
+  </div>
+
+  <section class="bg-gradient-to-br from-purple-600 to-pink-600 text-white py-12">
+    <div class="container-main">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">💃 Gartic Action Words</h1>
+      <p class="text-lg text-purple-100">{words.length}+ movements, activities, and emotions</p>
+    </div>
+  </section>
+
+  <div class="container-main py-12">
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-purple-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-purple-600">{words.length}</div>
+        <div class="text-sm text-gray-600">Action Words</div>
+      </div>
+      <div class="bg-pink-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-pink-600">{byDifficulty.easy.length}</div>
+        <div class="text-sm text-gray-600">Easy Actions</div>
+      </div>
+      <div class="bg-orange-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-orange-600">{byDifficulty.hard.length}</div>
+        <div class="text-sm text-gray-600">Complex</div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 mb-8 border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Drawing Actions in Gartic</h2>
+      <p class="text-gray-700">
+        Action words are unique because they show movement and emotion. Draw people doing things: running, dancing, sleeping, or showing emotions like laughing or crying. Use stick figures for quick actions!
+      </p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Find Action Words</h2>
+      <SearchBox client:load words={words} categories={['actions']} onSearch={(results) => {}} />
+    </div>
+
+    <div class="space-y-8">
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">EASY</span>
+          Easy ({byDifficulty.easy.length})
+        </h3>
+        <WordGrid client:load words={byDifficulty.easy} compact={true} />
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-bold">MEDIUM</span>
+          Medium ({byDifficulty.medium.length})
+        </h3>
+        <WordGrid client:load words={byDifficulty.medium} compact={true} />
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold">HARD</span>
+          Hard ({byDifficulty.hard.length})
+        </h3>
+        <WordGrid client:load words={byDifficulty.hard} compact={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

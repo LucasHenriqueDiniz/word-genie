@@ -1,0 +1,92 @@
+---
+import Layout from '../../components/Layout.astro';
+import SearchBox from '../../components/SearchBox.tsx';
+import WordGrid from '../../components/WordGrid.tsx';
+import { garticWords } from '../../data/words/gartic';
+import { getWordsByCategory, groupWordsByDifficulty } from '../../lib/search';
+import { generateBreadcrumbSchema } from '../../lib/schema';
+
+const category = 'characters';
+const words = getWordsByCategory(garticWords, category);
+const byDifficulty = groupWordsByDifficulty(words);
+
+const title = 'Gartic Character Words | Fantasy & Role Drawing Ideas | Word Genie';
+const description = 'Browse 30+ character and role words for Gartic. Draw pirates, wizards, superheroes, and more!';
+
+const breadcrumbs = [
+  { label: 'Home', url: '/' },
+  { label: 'Games', url: '/games' },
+  { label: 'Gartic', url: '/games/gartic' },
+  { label: 'Characters', url: '/gartic/characters' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="container-main py-4 text-sm">
+    <span class="text-gray-600">Gartic › Characters</span>
+  </div>
+
+  <section class="bg-gradient-to-br from-indigo-600 to-purple-600 text-white py-12">
+    <div class="container-main">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🧙 Gartic Character Words</h1>
+      <p class="text-lg text-indigo-100">{words.length}+ fantasy roles, professions & archetypes</p>
+    </div>
+  </section>
+
+  <div class="container-main py-12">
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-indigo-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-indigo-600">{words.length}</div>
+        <div class="text-sm text-gray-600">Characters</div>
+      </div>
+      <div class="bg-purple-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-purple-600">{byDifficulty.easy.length}</div>
+        <div class="text-sm text-gray-600">Easy</div>
+      </div>
+      <div class="bg-pink-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-pink-600">{byDifficulty.hard.length}</div>
+        <div class="text-sm text-gray-600">Complex</div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 mb-8 border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Drawing Characters in Gartic</h2>
+      <p class="text-gray-700">
+        Characters are fun because you can draw costumes and distinct visual elements. A pirate has an eyepatch and sword. A ninja is all black with a mask. A wizard has a pointed hat and wand. Focus on iconic accessories!
+      </p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Find Character Words</h2>
+      <SearchBox client:load words={words} categories={['characters']} onSearch={(results) => {}} />
+    </div>
+
+    <div class="space-y-8">
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">EASY</span>
+          Easy ({byDifficulty.easy.length})
+        </h3>
+        <WordGrid client:load words={byDifficulty.easy} compact={true} />
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-bold">MEDIUM</span>
+          Medium ({byDifficulty.medium.length})
+        </h3>
+        <WordGrid client:load words={byDifficulty.medium} compact={true} />
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold">HARD</span>
+          Hard ({byDifficulty.hard.length})
+        </h3>
+        <WordGrid client:load words={byDifficulty.hard} compact={true} />
+      </div>
+    </div>
+  </div>
+</Layout>

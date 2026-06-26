@@ -1,0 +1,254 @@
+---
+import Layout from '../../components/Layout.astro';
+import SearchBox from '../../components/SearchBox.tsx';
+import WordGrid from '../../components/WordGrid.tsx';
+import { garticWords } from '../../data/words/gartic';
+import { getWordsByCategory, groupWordsByDifficulty } from '../../lib/search';
+import { generateBreadcrumbSchema, generateFAQSchema } from '../../lib/schema';
+
+const category = 'animals';
+const words = getWordsByCategory(garticWords, category);
+const byDifficulty = groupWordsByDifficulty(words);
+
+const title = 'Gartic Animal Words | Easy, Medium & Hard Drawing Ideas | Word Genie';
+const description = 'Find the best animal words for Gartic. Browse 40+ animal drawing ideas organized by difficulty. Perfect for quick word lookup during gameplay!';
+
+const breadcrumbs = [
+  { label: 'Home', url: '/' },
+  { label: 'Games', url: '/games' },
+  { label: 'Gartic', url: '/games/gartic' },
+  { label: 'Animals', url: '/gartic/animals' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+
+const faqs = [
+  {
+    question: 'What are the easiest animal words to draw in Gartic?',
+    answer: 'Easy animals like cat, dog, fish, bird, and pig are great starting points. They have simple shapes and recognizable features. Draw them with basic circles and lines for quick recognition.',
+  },
+  {
+    question: 'Which animal words are good for experienced players?',
+    answer: 'Medium difficulty animals like penguin, butterfly, shark, and octopus require more detail but are still recognizable. Hard words like platypus or giraffe challenge even experienced players.',
+  },
+  {
+    question: 'How can I draw animals faster in Gartic?',
+    answer: 'Focus on distinctive features first: a cat\'s pointy ears, a bird\'s wings, a fish\'s fins. Use simple shapes and bold lines. Practice drawing the same animals multiple times to build muscle memory.',
+  },
+  {
+    question: 'Are there animal words that are too hard for Gartic?',
+    answer: 'Some animals like platypus with unique features can be very challenging. When drawing hard animals, try to draw them in context (like a platypus near water) to give visual clues.',
+  },
+  {
+    question: 'Can I mix easy and hard animal words in one game?',
+    answer: 'Absolutely! Mix difficulty levels to keep the game interesting. Easy words let newer players shine, while hard words challenge experienced players. Balance keeps everyone engaged.',
+  },
+];
+
+const faqSchema = generateFAQSchema(faqs);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- Breadcrumb -->
+  <div class="container-main py-4 text-sm">
+    <a href="/" class="text-blue-600 hover:underline">Home</a> /
+    <a href="/games" class="text-blue-600 hover:underline ml-1">Games</a> /
+    <a href="/games/gartic" class="text-blue-600 hover:underline ml-1">Gartic</a> /
+    <span class="text-gray-600 ml-1">Animals</span>
+  </div>
+
+  <!-- Header -->
+  <section class="bg-gradient-to-br from-green-600 to-emerald-600 text-white py-12">
+    <div class="container-main">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🐾 Gartic Animal Words</h1>
+      <p class="text-lg text-green-100 mb-4">
+        {words.length}+ animal drawing ideas organized by difficulty
+      </p>
+      <p class="text-green-100 max-w-2xl">
+        From simple pets to exotic creatures, find the perfect animal words for your Gartic game. Whether you're drawing a cat or attempting a platypus, we've got you covered with helpful tips for each word.
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container-main py-12">
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-green-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-green-600">{words.length}</div>
+        <div class="text-sm text-gray-600">Animal Words</div>
+      </div>
+      <div class="bg-emerald-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-emerald-600">{byDifficulty.easy.length}</div>
+        <div class="text-sm text-gray-600">Easy Animals</div>
+      </div>
+      <div class="bg-orange-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-orange-600">{byDifficulty.hard.length}</div>
+        <div class="text-sm text-gray-600">Challenge Words</div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="bg-white rounded-lg p-6 mb-8 border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">About Animal Words in Gartic</h2>
+      <p class="text-gray-700 mb-4">
+        Animals are among the most popular Gartic words because they're immediately recognizable and fun to draw. From household pets to wild creatures, animal words offer great variety in difficulty levels.
+      </p>
+      <p class="text-gray-700 mb-4">
+        Easy animal words like "cat" and "dog" are perfect for casual games where anyone can recognize the drawing. Medium difficulty animals like "penguin" and "butterfly" require more detail but are still achievable for most players. Hard animals like "platypus" and "octopus" provide a real challenge and are great for experienced players.
+      </p>
+      <p class="text-gray-700">
+        The key to drawing animals quickly is focusing on their most distinctive features first—a bird's wings, a fish's tail, or a giraffe's long neck. This helps others guess your drawing faster.
+      </p>
+    </div>
+
+    <!-- Search Section -->
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Find Animal Words</h2>
+      <SearchBox
+        client:load
+        words={words}
+        categories={['animals']}
+        onSearch={(results) => {
+          (window as any).animalResults = results;
+          document.dispatchEvent(new Event('animalSearch'));
+        }}
+      />
+    </div>
+
+    <!-- Word Grid by Difficulty -->
+    <div class="space-y-8">
+      <!-- Easy -->
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-bold">EASY</span>
+          Easy Animals ({byDifficulty.easy.length} words)
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Perfect for warm-up rounds or playing with new players. These animals have simple, recognizable shapes that are quick to draw.
+        </p>
+        <WordGrid client:load words={byDifficulty.easy} compact={true} />
+      </div>
+
+      <!-- Medium -->
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-bold">MEDIUM</span>
+          Medium Animals ({byDifficulty.medium.length} words)
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Good for balanced gameplay. These require more detail but players can still guess them with reasonable effort.
+        </p>
+        <WordGrid client:load words={byDifficulty.medium} compact={true} />
+      </div>
+
+      <!-- Hard -->
+      <div>
+        <h3 class="text-2xl font-bold mb-4 flex items-center gap-2">
+          <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold">HARD</span>
+          Hard Animals ({byDifficulty.hard.length} words)
+        </h3>
+        <p class="text-gray-600 mb-4">
+          Challenge your friends! These animals have unique features that are hard to represent quickly. Great for experienced players.
+        </p>
+        <WordGrid client:load words={byDifficulty.hard} compact={true} />
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips Section -->
+  <section class="bg-green-50 py-12">
+    <div class="container-main">
+      <h2 class="text-3xl font-bold mb-8">Tips for Drawing Animals in Gartic</h2>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">🎨 Quick Drawing Techniques</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li>• <strong>Start with shapes:</strong> Use circles for heads/bodies, lines for limbs</li>
+            <li>• <strong>Add distinctive features:</strong> Ears, tails, patterns—draw these first</li>
+            <li>• <strong>Use bold lines:</strong> Thick, dark strokes are easier to recognize</li>
+            <li>• <strong>Simplify details:</strong> 4 legs and a tail = cat or dog</li>
+            <li>• <strong>Add context:</strong> Draw trees around a monkey, water under a fish</li>
+            <li>• <strong>Exaggerate features:</strong> Big ears, long neck, spotted pattern</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">⏱️ Speed Drawing Hacks</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li>• <strong>Practice templates:</strong> Draw the same animal 5 times before playing</li>
+            <li>• <strong>Master basics first:</strong> Cat, dog, fish are your foundations</li>
+            <li>• <strong>Use shortcuts:</strong> Stick figures for animals standing/jumping</li>
+            <li>• <strong>Label when stuck:</strong> If your drawing isn't working, add a label</li>
+            <li>• <strong>Draw size differences:</strong> Big = elephant, small = mouse</li>
+            <li>• <strong>Color matters:</strong> Orange = tiger, black = crow, pink = pig</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="text-xl font-bold mb-4">🐾 Animals by Drawing Time</h3>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <h4 class="font-bold mb-2">⚡ Under 10 seconds</h4>
+            <p class="text-sm text-gray-600">cat, dog, bird, fish, pig, duck</p>
+          </div>
+          <div>
+            <h4 class="font-bold mb-2">⏱️ 10-20 seconds</h4>
+            <p class="text-sm text-gray-600">elephant, monkey, penguin, butterfly, shark</p>
+          </div>
+          <div>
+            <h4 class="font-bold mb-2">🎯 20+ seconds</h4>
+            <p class="text-sm text-gray-600">platypus, octopus, hippopotamus, giraffe</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="container-main py-12">
+    <h2 class="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
+
+    <div class="max-w-3xl mx-auto space-y-4">
+      {faqs.map((faq, i) => (
+        <details key={i} class="group border-l-4 border-green-600 bg-gray-50 p-6 rounded">
+          <summary class="font-bold cursor-pointer">{faq.question}</summary>
+          <p class="mt-4 text-gray-600">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- Related Categories -->
+  <section class="bg-gray-50 py-12">
+    <div class="container-main">
+      <h2 class="text-2xl font-bold mb-8">Related Categories</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <a href="/gartic/objects" class="card hover:shadow-lg transition">
+          <h3 class="font-bold mb-2">Objects</h3>
+          <p class="text-sm text-gray-600">Cars, phones, instruments, and household items</p>
+        </a>
+        <a href="/gartic/food" class="card hover:shadow-lg transition">
+          <h3 class="font-bold mb-2">Food</h3>
+          <p class="text-sm text-gray-600">Pizza, donuts, fruits, and delicious treats</p>
+        </a>
+        <a href="/gartic/characters" class="card hover:shadow-lg transition">
+          <h3 class="font-bold mb-2">Characters</h3>
+          <p class="text-sm text-gray-600">Zombies, pirates, ninjas, and fantasy roles</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section class="bg-blue-50 border-l-4 border-blue-600 p-6 rounded mt-8">
+    <p class="text-sm text-gray-700">
+      <strong>Disclaimer:</strong> Word Genie is not affiliated with Gartic, Gartic Inc. These are fan-created word lists to enhance your Gartic experience.
+    </p>
+  </section>
+</Layout>
