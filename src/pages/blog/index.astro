@@ -1,0 +1,115 @@
+---
+import Layout from '../../components/Layout.astro';
+
+const title = 'Word Genie Blog | Tips, Strategies & Drawing Guides | Word Genie';
+const description = 'Read tips, strategies, and guides for mastering Gartic and Guess The Build games. Improve your drawing and building skills!';
+
+const posts = [
+  {
+    title: 'Easy Words to Draw in Gartic: Complete Guide',
+    description: 'Master the simplest animal, object, and food words to win more games. Perfect for beginners and warm-up rounds.',
+    slug: 'easy-words-to-draw',
+    date: '2026-06-26',
+    category: 'Gartic',
+    readTime: '5 min read',
+  },
+  {
+    title: 'Hard Gartic Words: Challenge Yourself with Complex Drawings',
+    description: 'Take your drawing skills to the next level with difficult animal, object, and food words that separate pros from beginners.',
+    slug: 'hard-words-to-draw',
+    date: '2026-06-25',
+    category: 'Gartic',
+    readTime: '6 min read',
+  },
+  {
+    title: 'How to Win More Games: Gartic Tips & Strategies',
+    description: 'Proven strategies for drawing faster, guessing better, and dominating your Gartic games. Tips for every skill level.',
+    slug: 'gartic-tips-and-strategies',
+    date: '2026-06-24',
+    category: 'Gartic',
+    readTime: '8 min read',
+  },
+  {
+    title: 'Guess The Build Mastery: Best Words & Building Ideas',
+    description: 'Discover the top Minecraft building ideas and structures that win games. From simple to expert, find your next build.',
+    slug: 'guess-build-word-ideas',
+    date: '2026-06-23',
+    category: 'Guess The Build',
+    readTime: '7 min read',
+  },
+  {
+    title: 'Improve Your Drawing Game Skills: The Complete Guide',
+    description: 'Master the fundamentals of drawing games. Learn speed techniques, common mistakes, and how to practice effectively.',
+    slug: 'improve-drawing-game-skills',
+    date: '2026-06-22',
+    category: 'General',
+    readTime: '9 min read',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <div class="container-main py-4 text-sm">
+    <a href="/" class="text-blue-600 hover:underline">Home</a> /
+    <span class="text-gray-600 ml-2">Blog</span>
+  </div>
+
+  <!-- Header -->
+  <section class="bg-gradient-to-br from-indigo-600 to-purple-600 text-white py-16">
+    <div class="container-main">
+      <h1 class="text-5xl font-bold mb-4">📚 Word Genie Blog</h1>
+      <p class="text-xl text-indigo-100 max-w-2xl">
+        Tips, strategies, and guides to master Gartic and Guess The Build. Improve your skills and dominate every game!
+      </p>
+    </div>
+  </section>
+
+  <!-- Posts -->
+  <div class="container-main py-16">
+    <div class="grid md:grid-cols-1 gap-8">
+      {posts.map((post) => (
+        <a href={`/blog/${post.slug}`} class="group">
+          <article class="card hover:shadow-lg transition border-l-4 border-blue-600 bg-white">
+            <div class="flex flex-col md:flex-row gap-6">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-3">
+                  <span class={`text-xs font-bold px-3 py-1 rounded-full ${
+                    post.category === 'Gartic' ? 'bg-blue-100 text-blue-700' :
+                    post.category === 'Guess The Build' ? 'bg-orange-100 text-orange-700' :
+                    'bg-gray-100 text-gray-700'
+                  }`}>
+                    {post.category}
+                  </span>
+                  <span class="text-xs text-gray-500">{post.readTime}</span>
+                </div>
+                <h2 class="text-2xl font-bold mb-3 group-hover:text-blue-600 transition">
+                  {post.title}
+                </h2>
+                <p class="text-gray-600 mb-4">
+                  {post.description}
+                </p>
+                <div class="flex items-center justify-between">
+                  <time class="text-sm text-gray-500">{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                  <span class="text-blue-600 font-bold group-hover:translate-x-2 transition">Read →</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="bg-blue-50 py-12 rounded-lg mt-8">
+    <div class="container-main text-center">
+      <h2 class="text-3xl font-bold mb-4">Want More Tips?</h2>
+      <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+        Follow our blog for weekly tips, strategies, and guides to improve your game skills. Check back soon for more articles!
+      </p>
+      <a href="/games" class="btn btn-primary">
+        Back to Word Lists
+      </a>
+    </div>
+  </section>
+</Layout>
