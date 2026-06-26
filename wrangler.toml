@@ -1,21 +1,4 @@
 # Cloudflare Pages Configuration for Word Genie
-# This config allows deployment to Cloudflare Pages
-
 name = "word-genie"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-06-26"
-
-# Default configuration for Cloudflare Pages deployment
-# Pages automatically handles routing and domain configuration
-# When custom domain is ready, configure in Cloudflare dashboard:
-# 1. Settings → Custom domains
-# 2. Add wordgenie.app
-# 3. Update DNS records
-
-[build]
-command = "npm run build"
-cwd = "./"
-
-[build.environment]
-ASTRO_TELEMETRY_DISABLED = "true"
-NODE_VERSION = "20"
