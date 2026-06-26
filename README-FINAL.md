@@ -210,20 +210,10 @@ const description = 'Description';
    - Unique visitors
    - Top pages
    - Geographic distribution
-   - Request metrics
+   - Performance metrics
+   - Cache hit ratio
 
-### Google Search Console (Free)
-
-1. **Setup:** [SEARCH-CONSOLE-SETUP.md](./SEARCH-CONSOLE-SETUP.md)
-2. **Monitor:**
-   - Pages indexed
-   - Search rankings
-   - CTR metrics
-   - Core Web Vitals
-
-### Google Analytics (Optional)
-
-Add your GA4 ID to `src/components/Layout.astro` for detailed user behavior tracking.
+**See:** [CLOUDFLARE-MONITORING.md](./CLOUDFLARE-MONITORING.md)
 
 ---
 
@@ -280,7 +270,7 @@ See: [ADSENSE-READINESS.md](./ADSENSE-READINESS.md)
 
 ## 🌐 SEO & Indexing
 
-### Automatic
+### Automatic (Cloudflare Handles It)
 
 ✅ Sitemap (auto-generated)  
 ✅ Robots.txt (configured)  
@@ -289,15 +279,7 @@ See: [ADSENSE-READINESS.md](./ADSENSE-READINESS.md)
 ✅ Canonical URLs (no duplicates)  
 ✅ Proper heading hierarchy  
 
-### Setup Steps
-
-1. Deploy to Cloudflare
-2. Add to Google Search Console
-3. Submit sitemap
-4. Request indexing
-5. Wait 3-7 days
-
-Details: [SEARCH-CONSOLE-SETUP.md](./SEARCH-CONSOLE-SETUP.md)
+Cloudflare automatically crawlable. Google will index naturally over time.
 
 ---
 
