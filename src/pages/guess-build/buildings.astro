@@ -1,0 +1,75 @@
+---
+import Layout from '../../components/Layout.astro';
+import SearchBox from '../../components/SearchBox.tsx';
+import WordGrid from '../../components/WordGrid.tsx';
+import { guessBuildWords } from '../../data/words/guess-build';
+import { getWordsByCategory, groupWordsByDifficulty } from '../../lib/search';
+import { generateBreadcrumbSchema } from '../../lib/schema';
+
+const category = 'buildings';
+const words = getWordsByCategory(guessBuildWords, category);
+const byDifficulty = groupWordsByDifficulty(words);
+
+const title = 'Guess The Build Architecture | Minecraft Building Ideas | Word Genie';
+const description = 'Find 60+ architectural structures for Guess The Build. From cabins to cathedrals!';
+
+const breadcrumbs = [
+  { label: 'Home', url: '/' },
+  { label: 'Guess The Build', url: '/games/guess-build' },
+  { label: 'Buildings', url: '/guess-build/buildings' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <div class="container-main py-4 text-sm">
+    <a href="/" class="text-blue-600 hover:underline">Home</a> / <a href="/games/guess-build" class="text-blue-600 hover:underline ml-1">Guess The Build</a> / <span class="text-gray-600 ml-1">Buildings</span>
+  </div>
+
+  <section class="bg-gradient-to-br from-orange-600 to-yellow-600 text-white py-12">
+    <div class="container-main">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🏛️ Guess The Build Architecture</h1>
+      <p class="text-lg text-orange-100">{words.length}+ architectural structures to build</p>
+    </div>
+  </section>
+
+  <div class="container-main py-12">
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-orange-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-orange-600">{words.length}</div>
+        <div class="text-sm text-gray-600">Buildings</div>
+      </div>
+      <div class="bg-yellow-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-yellow-600">{byDifficulty.easy.length}</div>
+        <div class="text-sm text-gray-600">Easy</div>
+      </div>
+      <div class="bg-red-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-red-600">{byDifficulty.hard.length}</div>
+        <div class="text-sm text-gray-600">Complex</div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm border border-gray-200">
+      <h2 class="text-2xl font-bold mb-4">Find Building Ideas</h2>
+      <SearchBox client:load words={words} categories={['buildings']} onSearch={(results) => {}} />
+    </div>
+
+    <div class="space-y-8">
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Easy Buildings ({byDifficulty.easy.length})</h3>
+        <WordGrid client:load words={byDifficulty.easy} compact={true} />
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Medium Buildings ({byDifficulty.medium.length})</h3>
+        <WordGrid client:load words={byDifficulty.medium} compact={true} />
+      </div>
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Complex Buildings ({byDifficulty.hard.length})</h3>
+        <WordGrid client:load words={byDifficulty.hard} compact={true} />
+      </div>
+    </div>
+  </div>
+</Layout>
