@@ -1,10 +1,29 @@
+# Word Genie - SEO Configuration for Game Word Helper Tool
+# This site serves word lists for Gartic and Guess The Build games
+
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /api/internal
+Allow: /games
+Allow: /gartic/
+Allow: /guess-build/
+Allow: /blog/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /*?*sort=
+Disallow: /*?*filter=
 
+Crawl-delay: 1
+
+# Sitemap location for search engine discovery
 Sitemap: https://wordgenie.app/sitemap-index.xml
 
+# Google Search Console verification
+Sitemap: https://wordgenie.app/sitemap-0.xml
+
+# AI Crawler Policies - Block unless explicit permission
 User-agent: GPTBot
 Disallow: /
 
@@ -13,3 +32,12 @@ Disallow: /
 
 User-agent: anthropic-ai
 Disallow: /
+
+User-agent: claude-web
+Disallow: /
+
+User-agent: AmazonBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
