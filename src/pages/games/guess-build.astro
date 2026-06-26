@@ -1,0 +1,170 @@
+---
+import Layout from '../../components/Layout.astro';
+import SearchBox from '../../components/SearchBox.tsx';
+import WordGrid from '../../components/WordGrid.tsx';
+import { guessBuildWords } from '../../data/words/guess-build';
+import { gameBySlug } from '../../data/games';
+import { getCategoriesFromWords, groupWordsByDifficulty } from '../../lib/search';
+import { generateBreadcrumbSchema, generateFAQSchema } from '../../lib/schema';
+
+const game = gameBySlug('guess-the-build')!;
+const title = `Guess The Build Word Helper | Minecraft Building Ideas | Word Genie`;
+const description = `Find perfect building words for Guess The Build. Browse ${guessBuildWords.length}+ Minecraft building ideas organized by category. Gain the competitive edge!`;
+
+const categories = getCategoriesFromWords(guessBuildWords);
+const byDifficulty = groupWordsByDifficulty(guessBuildWords);
+
+const breadcrumbs = [
+  { label: 'Home', url: '/' },
+  { label: 'Games', url: '/games' },
+  { label: 'Guess The Build', url: '/games/guess-build' },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+
+const faqs = [
+  {
+    question: 'What is Guess The Build?',
+    answer: 'Guess The Build is a Minecraft game where one player builds a structure while others try to guess what it is. This tool helps you find buildable words and understand building patterns.',
+  },
+  {
+    question: 'How do I use this for building?',
+    answer: 'Browse our word list for inspiration, then build structures based on these ideas. The tool shows building difficulty so you can gauge how complex to make your structures.',
+  },
+  {
+    question: 'What are the building categories?',
+    answer: `We organize words into categories: ${categories.join(', ')}. Each category has easy, medium, and hard building challenges.`,
+  },
+  {
+    question: 'How can I get better at guessing?',
+    answer: 'Familiarize yourself with the most common words and building patterns. Study the building tips for each word to understand what builders look for when creating structures.',
+  },
+  {
+    question: 'Can I use this during ranked games?',
+    answer: 'Check your server rules before using this during competitive play. Most casual games allow reference tools, but official tournaments may have restrictions.',
+  },
+];
+
+const faqSchema = generateFAQSchema(faqs);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- Breadcrumb -->
+  <div class="container-main py-4 text-sm">
+    <a href="/" class="text-blue-600 hover:underline">Home</a> /
+    <a href="/games" class="text-blue-600 hover:underline ml-1">Games</a> /
+    <span class="text-gray-600 ml-1">Guess The Build</span>
+  </div>
+
+  <!-- Header -->
+  <section class={`bg-gradient-to-br ${game.color} text-white py-12`}>
+    <div class="container-main">
+      <div class="flex items-center gap-4 mb-4">
+        <span class="text-5xl">{game.icon}</span>
+        <h1 class="text-4xl md:text-5xl font-bold">Guess The Build Helper</h1>
+      </div>
+      <p class="text-lg text-orange-100 mb-4">
+        {game.description}
+      </p>
+      <p class="text-orange-100">
+        Browse {guessBuildWords.length}+ building ideas organized by {categories.length} categories
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container-main py-12">
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-orange-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-orange-600">{guessBuildWords.length}</div>
+        <div class="text-sm text-gray-600">Building Ideas</div>
+      </div>
+      <div class="bg-green-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-green-600">{byDifficulty.easy.length}</div>
+        <div class="text-sm text-gray-600">Easy Builds</div>
+      </div>
+      <div class="bg-red-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-red-600">{byDifficulty.hard.length}</div>
+        <div class="text-sm text-gray-600">Expert Builds</div>
+      </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm">
+      <h2 class="text-2xl font-bold mb-4">Find Building Ideas</h2>
+      <SearchBox
+        client:load
+        words={guessBuildWords}
+        categories={categories}
+        onSearch={(results) => {
+          (window as any).guessBuildSearchResults = results;
+          document.dispatchEvent(new Event('guessBuildSearch'));
+        }}
+      />
+    </div>
+
+    <!-- Word Grid -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Building Ideas</h2>
+      <div id="wordGrid">
+        <WordGrid client:load words={guessBuildWords} />
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips Section -->
+  <section class="bg-gray-50 py-12">
+    <div class="container-main">
+      <h2 class="text-3xl font-bold mb-8">Building & Guessing Tips</h2>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">🏗️ Building Tips</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li>• Start with recognizable shapes and silhouettes</li>
+            <li>• Use contrasting colors to make features stand out</li>
+            <li>• Build larger features first, then add details</li>
+            <li>• Think about what makes something recognizable</li>
+            <li>• Practice building common structures fast</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">🔍 Guessing Tips</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li>• Identify the general shape and silhouette first</li>
+            <li>• Look for distinctive features or decorations</li>
+            <li>• Guess common words before obscure ones</li>
+            <li>• Pay attention to the building material used</li>
+            <li>• Consider the theme or style of the build</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="container-main py-12">
+    <h2 class="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
+
+    <div class="max-w-3xl mx-auto space-y-4">
+      {faqs.map((faq, i) => (
+        <details key={i} class="group border-l-4 border-orange-600 bg-gray-50 p-6 rounded">
+          <summary class="font-bold cursor-pointer">{faq.question}</summary>
+          <p class="mt-4 text-gray-600">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section class="bg-orange-50 border-l-4 border-orange-600 p-6 rounded mt-8">
+    <p class="text-sm text-gray-700">
+      <strong>Disclaimer:</strong> Word Genie is not affiliated with Minecraft, Hypixel, Mojang Studios, or any of their subsidiaries. Minecraft and Hypixel are registered trademarks. This tool is created by fans to help players enjoy the game better.
+    </p>
+  </section>
+</Layout>

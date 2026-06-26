@@ -1,0 +1,58 @@
+---
+import { games } from '../data/games';
+---
+
+<footer class="bg-gray-900 text-gray-100 mt-16">
+  <div class="container-main">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 py-12">
+      <!-- Brand -->
+      <div>
+        <h3 class="text-xl font-bold mb-4 text-white">Word Genie</h3>
+        <p class="text-gray-400 mb-4">
+          Your ultimate word helper for drawing and building games.
+        </p>
+        <p class="text-sm text-gray-500">© 2026 Word Genie. All rights reserved.</p>
+      </div>
+
+      <!-- Games -->
+      <div>
+        <h4 class="font-bold mb-4 text-white">Games</h4>
+        <ul class="space-y-2">
+          {games.map(game => (
+            <li>
+              <a href={`/games/${game.slug}`} class="text-gray-400 hover:text-white transition">
+                {game.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="font-bold mb-4 text-white">Resources</h4>
+        <ul class="space-y-2">
+          <li><a href="/blog" class="text-gray-400 hover:text-white transition">Blog</a></li>
+          <li><a href="/about" class="text-gray-400 hover:text-white transition">About</a></li>
+          <li><a href="/contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div>
+        <h4 class="font-bold mb-4 text-white">Legal</h4>
+        <ul class="space-y-2">
+          <li><a href="/privacy-policy" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
+          <li><a href="/terms" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
+          <li><a href="/disclaimer" class="text-gray-400 hover:text-white transition">Disclaimer</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 py-8">
+      <p class="text-center text-gray-500 text-sm">
+        Word Genie is not affiliated with Gartic, Gartic Inc., Minecraft, Hypixel, or Mojang Studios.
+      </p>
+    </div>
+  </div>
+</footer>

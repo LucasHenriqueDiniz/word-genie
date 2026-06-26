@@ -1,0 +1,82 @@
+---
+import Layout from '../../components/Layout.astro';
+import { games } from '../../data/games';
+
+const title = 'Word Helper Games | Word Genie';
+const description = 'Choose your game - Gartic or Guess The Build. Find the perfect words for your next game!';
+---
+
+<Layout title={title} description={description}>
+  <!-- Breadcrumb -->
+  <div class="container-main py-4 text-sm">
+    <a href="/" class="text-blue-600 hover:underline">Home</a> /
+    <span class="text-gray-600 ml-2">Games</span>
+  </div>
+
+  <!-- Header -->
+  <section class="container-main py-8">
+    <h1 class="text-4xl font-bold mb-4">Select Your Game</h1>
+    <p class="text-lg text-gray-600">
+      Choose a game below to access its word helper. Each game has curated word lists organized by category and difficulty.
+    </p>
+  </section>
+
+  <!-- Games Grid -->
+  <section class="container-main py-12">
+    <div class="grid md:grid-cols-2 gap-8">
+      {games.map(game => (
+        <a href={`/games/${game.slug}`} class="group block">
+          <div class={`card bg-gradient-to-br ${game.color} p-8 text-white transform transition hover:scale-105 cursor-pointer`}>
+            <div class="text-6xl mb-4">{game.icon}</div>
+            <h2 class="text-3xl font-bold mb-3">{game.name}</h2>
+            <p class="text-blue-100 mb-6 text-lg">{game.description}</p>
+
+            <div class="mb-6">
+              <p class="text-sm text-blue-100 mb-3">Available Categories:</p>
+              <div class="flex flex-wrap gap-2">
+                {game.categories.map(cat => (
+                  <span key={cat} class="bg-white/20 px-3 py-1 rounded-full text-sm">
+                    {cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, ' ')}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <span class="inline-block font-bold group-hover:translate-x-2 transition text-white">
+              Open Helper →
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Info Section -->
+  <section class="bg-gray-50 py-12">
+    <div class="container-main">
+      <h2 class="text-2xl font-bold mb-8">About These Games</h2>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">🎨 Gartic</h3>
+          <p class="text-gray-700 mb-4">
+            Gartic is a popular drawing game where players draw words and others try to guess them. Word Genie helps you find quick, drawable words organized by category and difficulty.
+          </p>
+          <p class="text-gray-600 text-sm">
+            <strong>Best for:</strong> Quick word lookup during active gameplay
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xl font-bold mb-4">🏗️ Guess The Build</h3>
+          <p class="text-gray-700 mb-4">
+            Guess The Build is a Minecraft game where players build structures and others guess what they are. Find the perfect building words and gain the competitive edge.
+          </p>
+          <p class="text-gray-600 text-sm">
+            <strong>Best for:</strong> Preparing building ideas and guessing strategies
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

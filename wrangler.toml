@@ -1,0 +1,13 @@
+name = "word-genie"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-06-26"
+
+[env.production]
+routes = [
+  { pattern = "wordgenie.app/*", zone_name = "wordgenie.app" }
+]
+
+[env.staging]
+routes = [
+  { pattern = "staging.wordgenie.app/*", zone_name = "wordgenie.app" }
+]

@@ -1,0 +1,138 @@
+---
+import Layout from '../components/Layout.astro';
+import { games } from '../data/games';
+import { generateWebApplicationSchema } from '../lib/schema';
+
+const title = 'Word Genie - Word Helper for Gartic & Guess The Build';
+const description = 'Get instant word ideas for Gartic and Guess The Build games. Search thousands of words by difficulty and category.';
+
+const schema = generateWebApplicationSchema();
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-blue-600 to-purple-600 text-white py-20">
+    <div class="container-main text-center">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6">Word Genie ✨</h1>
+      <p class="text-xl md:text-2xl mb-8 text-blue-100">
+        Your Ultimate Word Helper for Drawing & Building Games
+      </p>
+      <p class="text-lg mb-8 max-w-2xl mx-auto">
+        Get instant word ideas for Gartic and Guess The Build. Search thousands of words organized by difficulty and category.
+      </p>
+      <a href="/games" class="btn bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-3 font-bold">
+        Start Searching →
+      </a>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="container-main py-16">
+    <h2 class="text-3xl font-bold mb-12 text-center">How It Works</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="card text-center">
+        <div class="text-4xl mb-4">🎮</div>
+        <h3 class="text-xl font-bold mb-2">Select Your Game</h3>
+        <p class="text-gray-600">
+          Choose between Gartic or Guess The Build, each with their own curated word lists.
+        </p>
+      </div>
+
+      <div class="card text-center">
+        <div class="text-4xl mb-4">🔍</div>
+        <h3 class="text-xl font-bold mb-2">Filter & Search</h3>
+        <p class="text-gray-600">
+          Filter by category, difficulty level, and search for specific words instantly.
+        </p>
+      </div>
+
+      <div class="card text-center">
+        <div class="text-4xl mb-4">📋</div>
+        <h3 class="text-xl font-bold mb-2">Copy & Play</h3>
+        <p class="text-gray-600">
+          Copy words with one click and use them in your games. Includes helpful drawing tips!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Games Section -->
+  <section class="bg-gray-100 py-16">
+    <div class="container-main">
+      <h2 class="text-3xl font-bold mb-12 text-center">Choose Your Game</h2>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        {games.map(game => (
+          <a href={`/games/${game.slug}`} class="group">
+            <div class={`card bg-gradient-to-br ${game.color} p-8 text-white transform transition hover:scale-105 cursor-pointer`}>
+              <div class="text-6xl mb-4">{game.icon}</div>
+              <h3 class="text-2xl font-bold mb-2">{game.name}</h3>
+              <p class="text-blue-100 mb-4">{game.description}</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                {game.categories.map(cat => (
+                  <span key={cat} class="bg-white/20 px-3 py-1 rounded-full text-sm">
+                    {cat}
+                  </span>
+                ))}
+              </div>
+              <span class="inline-block font-bold group-hover:translate-x-2 transition">
+                Explore →
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="container-main py-16">
+    <h2 class="text-3xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
+
+    <div class="max-w-3xl mx-auto space-y-6">
+      <details class="group border-l-4 border-blue-600 bg-gray-50 p-6 rounded">
+        <summary class="font-bold cursor-pointer">Can I use Word Genie while playing?</summary>
+        <p class="mt-4 text-gray-600">
+          Yes! Word Genie is designed to be quick and easy to use during games. Our words load instantly and you can copy them with one click.
+        </p>
+      </details>
+
+      <details class="group border-l-4 border-blue-600 bg-gray-50 p-6 rounded">
+        <summary class="font-bold cursor-pointer">Is this affiliated with Gartic or Minecraft?</summary>
+        <p class="mt-4 text-gray-600">
+          No. Word Genie is an independent tool created by fans to help players of these games. We are not affiliated with Gartic Inc., Minecraft, Hypixel, or Mojang Studios.
+        </p>
+      </details>
+
+      <details class="group border-l-4 border-blue-600 bg-gray-50 p-6 rounded">
+        <summary class="font-bold cursor-pointer">How often are new words added?</summary>
+        <p class="mt-4 text-gray-600">
+          We regularly add new words and categories based on popular game trends and user feedback. Check our blog for updates!
+        </p>
+      </details>
+
+      <details class="group border-l-4 border-blue-600 bg-gray-50 p-6 rounded">
+        <summary class="font-bold cursor-pointer">Can I suggest new words?</summary>
+        <p class="mt-4 text-gray-600">
+          Absolutely! We'd love your suggestions. Visit our <a href="/contact" class="text-blue-600 font-bold">contact page</a> to submit your ideas.
+        </p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="bg-blue-600 text-white py-16">
+    <div class="container-main text-center">
+      <h2 class="text-3xl font-bold mb-4">Ready to Dominate Your Games?</h2>
+      <p class="text-lg mb-8 text-blue-100">
+        Thousands of carefully curated words at your fingertips.
+      </p>
+      <a href="/games" class="btn bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-3 font-bold">
+        Get Started Now
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,178 @@
+---
+import Layout from '../../components/Layout.astro';
+import SearchBox from '../../components/SearchBox.tsx';
+import WordGrid from '../../components/WordGrid.tsx';
+import { garticWords } from '../../data/words/gartic';
+import { gameBySlug } from '../../data/games';
+import { getCategoriesFromWords, groupWordsByDifficulty } from '../../lib/search';
+import { generateBreadcrumbSchema, generateFAQSchema } from '../../lib/schema';
+
+const game = gameBySlug('gartic')!;
+const title = `Gartic Word Helper | ${game.name} Words & Strategies | Word Genie`;
+const description = `Find quick drawing words for Gartic. Browse ${garticWords.length}+ words organized by category and difficulty. Perfect for fast-paced drawing games!`;
+
+const categories = getCategoriesFromWords(garticWords);
+const byDifficulty = groupWordsByDifficulty(garticWords);
+
+const breadcrumbs = [
+  { label: 'Home', url: '/' },
+  { label: 'Games', url: '/games' },
+  { label: game.name, url: `/games/${game.slug}` },
+];
+
+const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+
+const faqs = [
+  {
+    question: 'What is Gartic?',
+    answer: 'Gartic is a popular online drawing game similar to Pictionary. One player draws a word while others try to guess it. This tool helps you find drawing-friendly words quickly.',
+  },
+  {
+    question: 'How do I use Word Genie for Gartic?',
+    answer: 'Simply search for a word or browse by category. Filter by difficulty level to find words that match your drawing skill. Copy the word with one click and use it in your game!',
+  },
+  {
+    question: 'What difficulty levels are available?',
+    answer: 'Easy words are simple to draw (cat, pizza), Medium words are moderately complex (mushroom, telescope), and Hard words are challenging to depict (platypus, croissant).',
+  },
+  {
+    question: 'Can I see the drawing tips?',
+    answer: 'Yes! Each word includes helpful tips on how to draw it effectively. Hover over any word card to see the tips.',
+  },
+  {
+    question: 'Is this tool allowed during Gartic games?',
+    answer: 'Word Genie is a reference tool and can be used during practice games. Check your specific game rules before using during competitive play.',
+  },
+];
+
+const faqSchema = generateFAQSchema(faqs);
+---
+
+<Layout title={title} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- Breadcrumb -->
+  <div class="container-main py-4 text-sm">
+    <a href="/" class="text-blue-600 hover:underline">Home</a> /
+    <a href="/games" class="text-blue-600 hover:underline ml-1">Games</a> /
+    <span class="text-gray-600 ml-1">{game.name}</span>
+  </div>
+
+  <!-- Header -->
+  <section class={`bg-gradient-to-br ${game.color} text-white py-12`}>
+    <div class="container-main">
+      <div class="flex items-center gap-4 mb-4">
+        <span class="text-5xl">{game.icon}</span>
+        <h1 class="text-4xl md:text-5xl font-bold">{game.name} Word Helper</h1>
+      </div>
+      <p class="text-lg text-blue-100 mb-4">
+        {game.description}
+      </p>
+      <p class="text-blue-100">
+        Browse {garticWords.length}+ words organized by {categories.length} categories
+      </p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container-main py-12">
+    <!-- Quick Stats -->
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-blue-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-blue-600">{garticWords.length}</div>
+        <div class="text-sm text-gray-600">Total Words</div>
+      </div>
+      <div class="bg-green-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-green-600">{byDifficulty.easy.length}</div>
+        <div class="text-sm text-gray-600">Easy Words</div>
+      </div>
+      <div class="bg-orange-50 rounded-lg p-4 text-center">
+        <div class="text-2xl font-bold text-orange-600">{categories.length}</div>
+        <div class="text-sm text-gray-600">Categories</div>
+      </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm">
+      <h2 class="text-2xl font-bold mb-4">Search Words</h2>
+      <SearchBox
+        client:load
+        words={garticWords}
+        categories={categories}
+        onSearch={(results) => {
+          (window as any).garticSearchResults = results;
+          document.dispatchEvent(new Event('garticSearch'));
+        }}
+      />
+    </div>
+
+    <!-- Word Grid -->
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Results</h2>
+      <div id="wordGrid">
+        <WordGrid client:load words={garticWords} />
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips Section -->
+  <section class="bg-gray-50 py-12">
+    <div class="container-main">
+      <h2 class="text-3xl font-bold mb-8">Tips for Drawing in Gartic</h2>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">✏️ Drawing Tips</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li>• Start with basic shapes to outline your drawing</li>
+            <li>• Use thick lines for better visibility</li>
+            <li>• Exaggerate features to make recognition easier</li>
+            <li>• Draw from simple to complex details</li>
+            <li>• Write letters if allowed by the game rules</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3 class="text-xl font-bold mb-4">🎯 Strategy Tips</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li>• Choose recognizable words when you're drawing</li>
+            <li>• Look for context clues when guessing</li>
+            <li>• Easy words are safer choices for beginners</li>
+            <li>• Hard words impress skilled players</li>
+            <li>• Stick figures work great for actions and emotions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="container-main py-12">
+    <h2 class="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
+
+    <div class="max-w-3xl mx-auto space-y-4">
+      {faqs.map((faq, i) => (
+        <details key={i} class="group border-l-4 border-blue-600 bg-gray-50 p-6 rounded">
+          <summary class="font-bold cursor-pointer">{faq.question}</summary>
+          <p class="mt-4 text-gray-600">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section class="bg-blue-50 border-l-4 border-blue-600 p-6 rounded mt-8">
+    <p class="text-sm text-gray-700">
+      <strong>Disclaimer:</strong> Word Genie is not affiliated with Gartic, Gartic Inc., or any of their subsidiaries. Gartic is a registered trademark of Gartic, Inc. This tool is created by fans to help players enjoy the game better.
+    </p>
+  </section>
+</Layout>
+
+<script define:vars={{ words: garticWords }}>
+  document.addEventListener('garticSearch', () => {
+    const results = window.garticSearchResults || words;
+    const grid = document.getElementById('wordGrid');
+    // Grid will be updated by React component
+  });
+</script>
