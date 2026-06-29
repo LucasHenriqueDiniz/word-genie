@@ -10,109 +10,192 @@ const allWords = gtbWordsData.words;
 const exampleWords = allWords.slice(0, 16);
 
 const categories = [
-  { name: "Buildings", count: "1,200+ THEMES", icon: "🏢", color: "orange" },
-  { name: "Fantasy", count: "850+ THEMES", icon: "🪄", color: "orange" },
-  { name: "Objects", count: "1,500+ THEMES", icon: "📦", color: "orange" }
+  { name: "Buildings", count: "340+ themes", slug: "buildings", icon: "building" },
+  { name: "Animals", count: "280+ themes", slug: "animals", icon: "paw" },
+  { name: "Objects", count: "420+ themes", slug: "objects", icon: "box" },
+  { name: "Fantasy", count: "180+ themes", slug: "fantasy", icon: "star" },
+  { name: "Places", count: "220+ themes", slug: "places", icon: "map" },
+  { name: "Food", count: "150+ themes", slug: "food", icon: "utensils" }
 ];
 
 const steps = [
-  { num: 1, title: "Observe Letters", desc: "Note the word length and any revealed letters from the game UI." },
-  { num: 2, title: "Input Pattern", desc: "Type your pattern in the solver using underscores for unknowns." },
-  { num: 3, title: "Win the Game", desc: "Pick the most likely word and vote 'Legendary' on your own build!" }
+  { num: 1, title: "Observe Letters", desc: "Note the word length and any revealed letters from the Hypixel game UI." },
+  { num: 2, title: "Input Pattern", desc: "Type your pattern using underscores for unknown letters in our solver." },
+  { num: 3, title: "Win the Game", desc: "Pick the most likely word and vote 'Legendary' on your own build." }
+];
+
+const faqs = [
+  { q: "Is this compatible with Hypixel Guess The Build?", a: "Yes, our word database is curated specifically for Hypixel GTB themes and patterns." },
+  { q: "How often is the word list updated?", a: "We update our database monthly based on new Hypixel GTB theme releases." },
+  { q: "Does it support multi-word themes?", a: "Yes, use spaces in your pattern to match multi-word build themes." }
 ];
 ---
 
-<Layout title="Guess The Build Solver - Word Genie">
-  <main class="min-h-screen bg-slate-50 dark:bg-slate-950 pb-32">
-    
-    <!-- Hero Section -->
-    <section class="pt-32 pb-16 px-6 text-center max-w-4xl mx-auto space-y-6">
-       <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-800 rounded-full text-[10px] font-bold text-orange-700 dark:text-orange-400 tracking-widest uppercase">
-         <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
-         Minecraft Build Engine
-       </div>
-       <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white">
-         Guess The Build <span class="text-orange-600">Solver</span>
-       </h1>
-       <p class="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-         Instantly find Minecraft build words for Hypixel and creative drawing games. Dominate the leaderboard with our lightning-fast word engine.
-       </p>
-    </section>
+<Layout title="Guess The Build Solver - Hypixel Word Helper | Word Genie">
+  <main class="min-h-screen">
+    <!-- Hero Header -->
+    <section class="bg-gradient-to-br from-tertiary/5 via-surface to-surface py-16 lg:py-20">
+      <div class="container-main text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-tertiary/10 border border-tertiary/20 rounded-full text-tertiary text-sm font-semibold mb-6">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+          Hypixel Optimized
+        </div>
 
-    <!-- Solver Container -->
-    <section class="px-6 mb-32">
-      <div class="max-w-5xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-orange-200/20 dark:shadow-none relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 blur-[100px] -z-0"></div>
-        <SimpleSolver client:load words={allWords} game="guess-the-build" placeholder="Enter pattern (e.g., p_tt_rn, d_n_s_ur)" />
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-on-surface mb-4">
+          Guess The Build
+          <span class="text-tertiary"> Solver</span>
+        </h1>
+
+        <p class="text-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+          Find Minecraft build words instantly. Optimized for Hypixel GTB with creative building terminology.
+        </p>
       </div>
     </section>
 
-    <div class="container mx-auto px-6 space-y-32">
-      <!-- Categories -->
-      <section>
-        <div class="flex items-center gap-4 mb-12">
-           <div class="h-8 w-1.5 bg-orange-500 rounded-full"></div>
-           <h2 class="text-3xl font-black tracking-tight">Top Categories</h2>
+    <!-- Solver Section -->
+    <section class="py-12">
+      <div class="container-narrow">
+        <div class="bg-surface-container-lowest rounded-3xl border border-outline-variant/50 shadow-lg p-6 sm:p-8 lg:p-10 relative overflow-hidden">
+          <!-- Decorative glow -->
+          <div class="absolute top-0 right-0 w-64 h-64 bg-tertiary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+          <SimpleSolver
+            client:load
+            words={allWords}
+            game="guess-the-build"
+            placeholder="Enter pattern (e.g., p_tt_rn, d_n_s_ur, _o_s_)"
+          />
         </div>
-        <div class="grid md:grid-cols-3 gap-6">
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-16 bg-surface-container-low">
+      <div class="container-main">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
+          <div>
+            <h2 class="text-2xl lg:text-3xl font-bold tracking-tight mb-2">Browse Themes</h2>
+            <p class="text-on-surface-variant">Curated word lists for common Hypixel GTB categories.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {categories.map(c => (
-            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 rounded-3xl group hover:border-orange-500/50 transition-all">
-               <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-3xl mb-6">{c.icon}</div>
-               <h3 class="text-xl font-bold mb-1">{c.name}</h3>
-               <p class="text-slate-500 text-sm leading-relaxed mb-6">Architectural structures, landmarks, and home features.</p>
-               <button class="w-full py-3 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-xl group-hover:bg-orange-500 group-hover:text-white transition-all">View List</button>
-            </div>
+            <a
+              href={`/guess-build/${c.slug}`}
+              class="group flex items-center gap-4 p-5 bg-surface rounded-xl border border-outline-variant/30 hover:border-tertiary/40 hover:shadow-md transition-all"
+            >
+              <div class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center text-tertiary flex-shrink-0 group-hover:bg-tertiary group-hover:text-white transition-colors">
+                {c.icon === 'building' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                )}
+                {c.icon === 'paw' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                )}
+                {c.icon === 'box' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                )}
+                {c.icon === 'star' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L11 21l-2.143-6.857L1 12l6.857-2.143L11 3z" />
+                  </svg>
+                )}
+                {c.icon === 'map' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                )}
+                {c.icon === 'utensils' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                )}
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-bold text-on-surface group-hover:text-tertiary transition-colors">{c.name}</h3>
+                <p class="text-sm text-on-surface-variant">{c.count}</p>
+              </div>
+              <svg class="w-5 h-5 text-on-surface-variant group-hover:text-tertiary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Featured Words -->
-      <section>
-        <WordShowcase title="Featured Themes" words={exampleWords} colorScheme="orange" client:load />
-      </section>
+    <!-- Featured Words -->
+    <section class="py-16">
+      <div class="container-main">
+        <WordShowcase client:load title="Popular Themes" words={exampleWords} colorScheme="orange" />
+      </div>
+    </section>
 
-      <!-- How it Works -->
-      <section class="bg-orange-500/5 border border-orange-500/10 rounded-[48px] py-20 px-6">
-        <h2 class="text-3xl font-black tracking-tight mb-16 text-center">How it Works</h2>
-        <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+    <!-- How It Works -->
+    <section class="py-16 bg-surface-container-low">
+      <div class="container-main">
+        <h2 class="text-2xl lg:text-3xl font-bold tracking-tight text-center mb-12">How It Works</h2>
+
+        <div class="grid md:grid-cols-3 gap-8 lg:gap-12 relative max-w-4xl mx-auto">
+          <!-- Connector line -->
+          <div class="hidden md:block absolute top-10 left-1/4 right-1/4 h-px bg-outline-variant"></div>
+
           {steps.map(s => (
-            <div class="text-center space-y-6">
-              <div class="w-16 h-16 bg-orange-600 text-white rounded-2xl flex items-center justify-center text-2xl font-black mx-auto shadow-lg shadow-orange-600/30">{s.num}</div>
-              <h3 class="text-xl font-bold">{s.title}</h3>
-              <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+            <div class="relative text-center">
+              <div class="w-20 h-20 bg-tertiary text-white rounded-2xl flex items-center justify-center text-2xl font-extrabold mx-auto mb-6 shadow-lg">
+                {s.num}
+              </div>
+              <h3 class="text-lg font-bold mb-2">{s.title}</h3>
+              <p class="text-on-surface-variant text-sm leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- FAQ -->
-      <section class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-black tracking-tight mb-12 text-center">Build Solver FAQ</h2>
+    <!-- FAQ -->
+    <section class="py-16">
+      <div class="container-narrow">
+        <h2 class="text-2xl lg:text-3xl font-bold tracking-tight text-center mb-10">FAQ</h2>
+
         <div class="space-y-4">
-          {[
-            "Is this solver compatible with Hypixel Guess The Build?",
-            "How often is the word list updated?",
-            "Does it support multi-word themes?"
-          ].map(q => (
-            <div class="p-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl flex justify-between items-center group cursor-pointer hover:border-orange-500/30 transition-all">
-              <span class="font-bold text-slate-700 dark:text-slate-200">{q}</span>
-              <svg class="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
+          {faqs.map(faq => (
+            <details class="group bg-surface rounded-xl border border-outline-variant/30 overflow-hidden">
+              <summary class="flex items-center justify-between p-5 cursor-pointer list-none">
+                <span class="font-semibold text-on-surface">{faq.q}</span>
+                <svg class="w-5 h-5 text-on-surface-variant group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div class="px-5 pb-5 text-on-surface-variant text-sm leading-relaxed">
+                {faq.a}
+              </div>
+            </details>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- CTA -->
-      <section class="bg-blue-600 rounded-[40px] p-12 text-center text-white relative overflow-hidden group">
-         <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-500"></div>
-         <div class="relative z-10 max-w-2xl mx-auto space-y-8">
-            <h2 class="text-4xl font-black tracking-tight">Switch to Gartic Mode?</h2>
-            <p class="text-blue-100 opacity-90 text-lg">If you're playing Gartic.io or Skribbl, try our specialized drawing solver for even faster results.</p>
-            <a href="/games/gartic" class="inline-flex px-10 py-4 bg-white text-blue-600 font-black rounded-xl hover:scale-105 transition-transform">Gartic Solver</a>
-         </div>
-         <!-- Decorative -->
-         <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all"></div>
-      </section>
-    </div>
+    <!-- Cross-promo -->
+    <section class="py-16 bg-surface-container-low">
+      <div class="container-narrow">
+        <div class="bg-primary/10 border border-primary/20 rounded-2xl p-8 text-center">
+          <h3 class="text-xl font-bold mb-2">Also Playing Gartic Phone?</h3>
+          <p class="text-on-surface-variant mb-6">Try our Gartic-optimized solver with drawing-game specific vocabulary.</p>
+          <a href="/games/gartic" class="btn btn-primary">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            Gartic Solver
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>

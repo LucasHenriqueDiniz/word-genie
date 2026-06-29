@@ -2,25 +2,35 @@
 import { games } from '../data/games';
 ---
 
-<footer class="bg-gray-900 text-gray-100 mt-16">
-  <div class="container-main">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 py-12">
+<footer class="bg-inverse-surface text-inverse-on-surface mt-auto">
+  <div class="container-main py-12 lg:py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12">
       <!-- Brand -->
-      <div>
-        <h3 class="text-xl font-bold mb-4 text-white">Word Genie</h3>
-        <p class="text-gray-400 mb-4">
-          Your ultimate word helper for drawing and building games.
+      <div class="col-span-2 md:col-span-1">
+        <a href="/" class="inline-flex items-center gap-2.5 mb-4 link-clean">
+          <div class="w-8 h-8 bg-inverse-primary rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 text-inverse-surface" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L11 21l-2.143-6.857L1 12l6.857-2.143L11 3z" />
+            </svg>
+          </div>
+          <span class="text-lg font-bold">Word Genie</span>
+        </a>
+        <p class="text-sm text-inverse-on-surface/70 leading-relaxed mb-4">
+          Your intelligent companion for word games. Fast, accurate, and always free.
         </p>
-        <p class="text-sm text-gray-500">© 2026 Word Genie. All rights reserved.</p>
+        <p class="text-xs text-inverse-on-surface/50">© 2026 Word Genie</p>
       </div>
 
       <!-- Games -->
       <div>
-        <h4 class="font-bold mb-4 text-white">Games</h4>
-        <ul class="space-y-2">
+        <h4 class="text-label-md uppercase text-inverse-on-surface/50 mb-4">Games</h4>
+        <ul class="space-y-2.5">
           {games.map(game => (
             <li>
-              <a href={`/games/${game.slug}`} class="text-gray-400 hover:text-white transition">
+              <a
+                href={`/games/${game.slug}`}
+                class="text-sm text-inverse-on-surface/80 hover:text-inverse-on-surface transition-colors"
+              >
                 {game.name}
               </a>
             </li>
@@ -30,27 +40,30 @@ import { games } from '../data/games';
 
       <!-- Resources -->
       <div>
-        <h4 class="font-bold mb-4 text-white">Resources</h4>
-        <ul class="space-y-2">
-          <li><a href="/blog" class="text-gray-400 hover:text-white transition">Blog</a></li>
-          <li><a href="/about" class="text-gray-400 hover:text-white transition">About</a></li>
-          <li><a href="/contact" class="text-gray-400 hover:text-white transition">Contact</a></li>
+        <h4 class="text-label-md uppercase text-inverse-on-surface/50 mb-4">Resources</h4>
+        <ul class="space-y-2.5">
+          <li><a href="/blog" class="text-sm text-inverse-on-surface/80 hover:text-inverse-on-surface transition-colors">Blog</a></li>
+          <li><a href="/about" class="text-sm text-inverse-on-surface/80 hover:text-inverse-on-surface transition-colors">About</a></li>
+          <li><a href="/contact" class="text-sm text-inverse-on-surface/80 hover:text-inverse-on-surface transition-colors">Contact</a></li>
         </ul>
       </div>
 
       <!-- Legal -->
       <div>
-        <h4 class="font-bold mb-4 text-white">Legal</h4>
-        <ul class="space-y-2">
-          <li><a href="/privacy-policy" class="text-gray-400 hover:text-white transition">Privacy Policy</a></li>
-          <li><a href="/terms" class="text-gray-400 hover:text-white transition">Terms of Service</a></li>
-          <li><a href="/disclaimer" class="text-gray-400 hover:text-white transition">Disclaimer</a></li>
+        <h4 class="text-label-md uppercase text-inverse-on-surface/50 mb-4">Legal</h4>
+        <ul class="space-y-2.5">
+          <li><a href="/privacy-policy" class="text-sm text-inverse-on-surface/80 hover:text-inverse-on-surface transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms" class="text-sm text-inverse-on-surface/80 hover:text-inverse-on-surface transition-colors">Terms of Service</a></li>
+          <li><a href="/disclaimer" class="text-sm text-inverse-on-surface/80 hover:text-inverse-on-surface transition-colors">Disclaimer</a></li>
         </ul>
       </div>
     </div>
+  </div>
 
-    <div class="border-t border-gray-800 py-8">
-      <p class="text-center text-gray-500 text-sm">
+  <!-- Disclaimer Bar -->
+  <div class="border-t border-inverse-on-surface/10">
+    <div class="container-main py-4">
+      <p class="text-xs text-center text-inverse-on-surface/40">
         Word Genie is not affiliated with Gartic, Gartic Inc., Minecraft, Hypixel, or Mojang Studios.
       </p>
     </div>

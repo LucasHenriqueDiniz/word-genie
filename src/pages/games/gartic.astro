@@ -10,89 +10,162 @@ const allWords = garticWordsData.words;
 const exampleWords = allWords.slice(0, 16);
 
 const categories = [
-  { name: "Animals", count: "420+ VERIFIED WORDS", icon: "🐾", color: "blue" },
-  { name: "Food", count: "315+ VERIFIED WORDS", icon: "🍴", color: "blue" },
-  { name: "Objects", count: "580+ VERIFIED WORDS", icon: "📦", color: "blue" }
+  { name: "Animals", count: "420+ words", slug: "animals", icon: "paw" },
+  { name: "Food", count: "315+ words", slug: "food", icon: "utensils" },
+  { name: "Objects", count: "580+ words", slug: "objects", icon: "box" },
+  { name: "Characters", count: "290+ words", slug: "characters", icon: "users" },
+  { name: "Places", count: "180+ words", slug: "places", icon: "map" },
+  { name: "Actions", count: "150+ words", slug: "actions", icon: "play" }
 ];
 
 const steps = [
-  { num: 1, title: "Check Length", desc: "Count the underscores in Gartic and set the word length in our Genie tool." },
-  { num: 2, title: "Input Hints", desc: "As letters are revealed by the game, type them into the solver to narrow down matches." },
-  { num: 3, title: "Win the Round", desc: "Choose the most likely word from our instant results list and secure those points!" }
+  { num: 1, title: "Check Length", desc: "Count the underscores in Gartic and set the word length in our solver." },
+  { num: 2, title: "Input Hints", desc: "As letters are revealed, type them into the solver to narrow matches." },
+  { num: 3, title: "Win the Round", desc: "Choose the most likely word from instant results and secure points." }
 ];
 ---
 
-<Layout title="Gartic Solver - Word Genie">
-  <main class="min-h-screen bg-slate-50 dark:bg-slate-950 pb-32">
-    
-    <!-- Hero / Title -->
-    <section class="pt-32 pb-16 px-6 text-center max-w-4xl mx-auto space-y-6">
-       <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-full text-[10px] font-bold text-blue-600 dark:text-blue-400 tracking-widest uppercase">
-         <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-         The Ultimate Gartic Companion
-       </div>
-       <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white">
-         Gartic Word <span class="text-blue-600">Solver</span>
-       </h1>
-       <p class="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-         Decode drawings instantly. Filter by word length and letters to find the answer before anyone else.
-       </p>
-    </section>
+<Layout title="Gartic Solver - Instant Word Matching | Word Genie">
+  <main class="min-h-screen">
+    <!-- Hero Header -->
+    <section class="bg-gradient-to-br from-primary/5 via-surface to-surface py-16 lg:py-20">
+      <div class="container-main text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-primary text-sm font-semibold mb-6">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+          4,187 Curated Words
+        </div>
 
-    <!-- Solver Container -->
-    <section class="px-6 mb-32">
-      <div class="max-w-5xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-slate-200/50 dark:shadow-none">
-        <SimpleSolver client:load words={allWords} game="gartic" placeholder="Enter pattern (e.g., ele____, c_t)" />
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-on-surface mb-4">
+          Gartic Word
+          <span class="text-gradient"> Solver</span>
+        </h1>
+
+        <p class="text-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+          Decode Gartic Phone drawings instantly. Pattern matching against thousands of curated words.
+        </p>
       </div>
     </section>
 
-    <!-- Content Sections -->
-    <div class="container mx-auto px-6 space-y-32">
-      
-      <!-- Top Categories -->
-      <section>
-        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-           <div>
-             <h2 class="text-3xl font-black tracking-tight mb-2">Top Categories</h2>
-             <p class="text-slate-500">Explore our curated databases for common game modes.</p>
-           </div>
+    <!-- Solver Section -->
+    <section class="py-12">
+      <div class="container-narrow">
+        <div class="bg-surface-container-lowest rounded-3xl border border-outline-variant/50 shadow-lg p-6 sm:p-8 lg:p-10">
+          <SimpleSolver
+            client:load
+            words={allWords}
+            game="gartic"
+            placeholder="Enter pattern (e.g., ele_____, c_t, _o_s_)"
+          />
         </div>
-        <div class="grid md:grid-cols-3 gap-6">
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-16 bg-surface-container-low">
+      <div class="container-main">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10">
+          <div>
+            <h2 class="text-2xl lg:text-3xl font-bold tracking-tight mb-2">Browse Categories</h2>
+            <p class="text-on-surface-variant">Explore curated word lists for common Gartic game modes.</p>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {categories.map(c => (
-            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 rounded-3xl group hover:border-blue-500/50 transition-all">
-               <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-2xl mb-6">{c.icon}</div>
-               <h3 class="text-xl font-bold mb-1">{c.name}</h3>
-               <p class="text-[10px] font-bold text-slate-400 tracking-wider mb-6 uppercase">{c.count}</p>
-               <a href="#" class="inline-flex items-center gap-2 text-blue-600 font-bold text-sm group-hover:gap-3 transition-all">
-                 Explore Database <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-               </a>
-            </div>
+            <a
+              href={`/gartic/${c.slug}`}
+              class="group flex items-center gap-4 p-5 bg-surface rounded-xl border border-outline-variant/30 hover:border-primary/40 hover:shadow-md transition-all"
+            >
+              <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                {c.icon === 'paw' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                )}
+                {c.icon === 'utensils' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                )}
+                {c.icon === 'box' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                )}
+                {c.icon === 'users' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                )}
+                {c.icon === 'map' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                )}
+                {c.icon === 'play' && (
+                  <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                )}
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="font-bold text-on-surface group-hover:text-primary transition-colors">{c.name}</h3>
+                <p class="text-sm text-on-surface-variant">{c.count}</p>
+              </div>
+              <svg class="w-5 h-5 text-on-surface-variant group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Featured Words -->
-      <section>
-        <WordShowcase client:load title="Featured Words" words={exampleWords} colorScheme="blue" />
-      </section>
+    <!-- Featured Words -->
+    <section class="py-16">
+      <div class="container-main">
+        <WordShowcase client:load title="Popular Words" words={exampleWords} colorScheme="blue" />
+      </div>
+    </section>
 
-      <!-- Process -->
-      <section class="text-center">
-        <h2 class="text-3xl font-black tracking-tight mb-16">Master Gartic in 3 Steps</h2>
-        <div class="grid md:grid-cols-3 gap-12 relative">
-          <!-- Connector Line (Desktop) -->
-          <div class="hidden md:block absolute top-10 left-1/4 right-1/4 h-px bg-slate-200 dark:bg-slate-800 -z-0"></div>
-          
+    <!-- How It Works -->
+    <section class="py-16 bg-surface-container-low">
+      <div class="container-main">
+        <h2 class="text-2xl lg:text-3xl font-bold tracking-tight text-center mb-12">Master Gartic in 3 Steps</h2>
+
+        <div class="grid md:grid-cols-3 gap-8 lg:gap-12 relative max-w-4xl mx-auto">
+          <!-- Connector line -->
+          <div class="hidden md:block absolute top-10 left-1/4 right-1/4 h-px bg-outline-variant"></div>
+
           {steps.map(s => (
-            <div class="relative z-10 space-y-6">
-              <div class="w-20 h-20 bg-blue-600 text-white rounded-3xl flex items-center justify-center text-2xl font-black mx-auto shadow-xl shadow-blue-600/30">{s.num}</div>
-              <h3 class="text-xl font-bold">{s.title}</h3>
-              <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-xs mx-auto">{s.desc}</p>
+            <div class="relative text-center">
+              <div class="w-20 h-20 bg-primary text-white rounded-2xl flex items-center justify-center text-2xl font-extrabold mx-auto shadow-glow-blue mb-6">
+                {s.num}
+              </div>
+              <h3 class="text-lg font-bold mb-2">{s.title}</h3>
+              <p class="text-on-surface-variant text-sm leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-    </div>
+    <!-- Cross-promo -->
+    <section class="py-16">
+      <div class="container-narrow">
+        <div class="bg-tertiary/10 border border-tertiary/20 rounded-2xl p-8 text-center">
+          <h3 class="text-xl font-bold mb-2">Also Playing Guess The Build?</h3>
+          <p class="text-on-surface-variant mb-6">Try our Hypixel-optimized solver with Minecraft-specific vocabulary.</p>
+          <a href="/games/guess-build" class="btn btn-secondary">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            GTB Solver
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>
