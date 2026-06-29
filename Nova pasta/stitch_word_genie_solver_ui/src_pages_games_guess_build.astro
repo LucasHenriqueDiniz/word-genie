@@ -1,0 +1,114 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SimpleSolver from '../../components/SimpleSolver.tsx';
+import WordShowcase from '../../components/WordShowcase.tsx';
+
+const exampleWords = ["CASTLE", "DRAGON", "PHOENIX", "VOLCANO", "PYRAMID", "LIGHTHOUSE", "STATUE", "MOUNTAIN", "ROCKET", "TOWER", "BRIDGE", "HOUSE"];
+
+const categories = [
+  { name: "Buildings", count: "1,200+ THEMES", icon: "🏢", color: "orange" },
+  { name: "Fantasy", count: "850+ THEMES", icon: "🪄", color: "orange" },
+  { name: "Objects", count: "1,500+ THEMES", icon: "📦", color: "orange" }
+];
+
+const steps = [
+  { num: 1, title: "Observe Letters", desc: "Note the word length and any revealed letters from the game UI." },
+  { num: 2, title: "Input Pattern", desc: "Type your pattern in the solver using underscores for unknowns." },
+  { num: 3, title: "Win the Game", desc: "Pick the most likely word and vote 'Legendary' on your own build!" }
+];
+---
+
+<Layout title="Guess The Build Solver - Word Genie">
+  <main class="min-h-screen bg-slate-50 dark:bg-slate-950 pb-32">
+    
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-6 text-center max-w-4xl mx-auto space-y-6">
+       <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-800 rounded-full text-[10px] font-bold text-orange-700 dark:text-orange-400 tracking-widest uppercase">
+         <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+         Minecraft Build Engine
+       </div>
+       <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white">
+         Guess The Build <span class="text-orange-600">Solver</span>
+       </h1>
+       <p class="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+         Instantly find Minecraft build words for Hypixel and creative drawing games. Dominate the leaderboard with our lightning-fast word engine.
+       </p>
+    </section>
+
+    <!-- Solver Container -->
+    <section class="px-6 mb-32">
+      <div class="max-w-5xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-orange-200/20 dark:shadow-none relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 blur-[100px] -z-0"></div>
+        <SimpleSolver client:load colorScheme="orange" words={[]} placeholder="Enter build pattern (e.g., d_n_s_ur)" />
+      </div>
+    </section>
+
+    <div class="container mx-auto px-6 space-y-32">
+      <!-- Categories -->
+      <section>
+        <div class="flex items-center gap-4 mb-12">
+           <div class="h-8 w-1.5 bg-orange-500 rounded-full"></div>
+           <h2 class="text-3xl font-black tracking-tight">Top Categories</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          {categories.map(c => (
+            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 rounded-3xl group hover:border-orange-500/50 transition-all">
+               <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-3xl mb-6">{c.icon}</div>
+               <h3 class="text-xl font-bold mb-1">{c.name}</h3>
+               <p class="text-slate-500 text-sm leading-relaxed mb-6">Architectural structures, landmarks, and home features.</p>
+               <button class="w-full py-3 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-xl group-hover:bg-orange-500 group-hover:text-white transition-all">View List</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Featured Words -->
+      <section>
+        <WordShowcase title="Featured Themes" words={exampleWords} colorScheme="orange" client:load />
+      </section>
+
+      <!-- How it Works -->
+      <section class="bg-orange-500/5 border border-orange-500/10 rounded-[48px] py-20 px-6">
+        <h2 class="text-3xl font-black tracking-tight mb-16 text-center">How it Works</h2>
+        <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+          {steps.map(s => (
+            <div class="text-center space-y-6">
+              <div class="w-16 h-16 bg-orange-600 text-white rounded-2xl flex items-center justify-center text-2xl font-black mx-auto shadow-lg shadow-orange-600/30">{s.num}</div>
+              <h3 class="text-xl font-bold">{s.title}</h3>
+              <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-black tracking-tight mb-12 text-center">Build Solver FAQ</h2>
+        <div class="space-y-4">
+          {[
+            "Is this solver compatible with Hypixel Guess The Build?",
+            "How often is the word list updated?",
+            "Does it support multi-word themes?"
+          ].map(q => (
+            <div class="p-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl flex justify-between items-center group cursor-pointer hover:border-orange-500/30 transition-all">
+              <span class="font-bold text-slate-700 dark:text-slate-200">{q}</span>
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="bg-blue-600 rounded-[40px] p-12 text-center text-white relative overflow-hidden group">
+         <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-500"></div>
+         <div class="relative z-10 max-w-2xl mx-auto space-y-8">
+            <h2 class="text-4xl font-black tracking-tight">Switch to Gartic Mode?</h2>
+            <p class="text-blue-100 opacity-90 text-lg">If you're playing Gartic.io or Skribbl, try our specialized drawing solver for even faster results.</p>
+            <a href="/games/gartic" class="inline-flex px-10 py-4 bg-white text-blue-600 font-black rounded-xl hover:scale-105 transition-transform">Gartic Solver</a>
+         </div>
+         <!-- Decorative -->
+         <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all"></div>
+      </section>
+    </div>
+  </main>
+</Layout>

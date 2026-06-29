@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Select Your Game - Word Genie</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001a42",
+                        "surface-tint": "#005ac2",
+                        "on-tertiary-container": "#fffbff",
+                        "secondary-container": "#b6ccff",
+                        "on-surface-variant": "#424754",
+                        "on-secondary-container": "#405682",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-on-surface": "#eaf1ff",
+                        "tertiary": "#924700",
+                        "surface": "#f8f9ff",
+                        "inverse-surface": "#213145",
+                        "outline": "#727785",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "secondary-fixed-dim": "#b1c6f9",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#304671",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#b75b00",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#0b1c30",
+                        "background": "#f8f9ff",
+                        "surface-container-low": "#eff4ff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#adc6ff",
+                        "primary-container": "#2170e4",
+                        "on-tertiary-fixed": "#311400",
+                        "on-error": "#ffffff",
+                        "primary": "#0058be",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary": "#495e8a",
+                        "on-primary-container": "#fefcff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-dim": "#cbdbf5",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "surface-container": "#e5eeff",
+                        "inverse-primary": "#adc6ff",
+                        "outline-variant": "#c2c6d6",
+                        "surface-container-highest": "#d3e4fe",
+                        "surface-container-high": "#dce9ff",
+                        "primary-fixed": "#d8e2ff",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-secondary-fixed": "#001a42"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "xl": "48px",
+                        "sm": "8px",
+                        "gutter": "20px",
+                        "unit": "4px",
+                        "container-max": "768px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "letter-grid": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                        "letter-grid": ["32px", {"lineHeight": "1", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-effect {
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.7);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        @media (max-width: 640px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-active .accordion-content {
+            max-height: 200px;
+        }
+        .accordion-active .chevron {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-md lg:px-xl h-16 max-w-[1920px] mx-auto bg-surface border-b border-outline-variant">
+<div class="font-headline-md text-headline-md font-bold text-primary">Word Genie</div>
+<nav class="hidden md:flex items-center space-x-lg h-full">
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Solver</a>
+<a class="font-headline-sm text-headline-sm text-primary border-b-2 border-primary pb-1" href="#">Gartic</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Guess Build</a>
+<a class="font-headline-sm text-headline-sm text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Stats</a>
+</nav>
+<div class="flex items-center gap-md">
+<button class="material-symbols-outlined text-primary scale-95 active:scale-90 transition-transform">dark_mode</button>
+</div>
+</header>
+<main class="flex-grow pt-32 pb-xl px-md w-full max-w-container-max mx-auto">
+<!-- Hero Title -->
+<div class="text-center mb-xl">
+<h1 class="font-display-lg text-display-lg text-on-background mb-xs">Select Your Game</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[600px] mx-auto">
+                Choose your challenge. Our specialized solvers help you identify the perfect word in seconds.
+            </p>
+</div>
+<!-- Game Selection Cards -->
+<div class="bento-grid mb-xl">
+<!-- Gartic Card -->
+<div class="group relative overflow-hidden bg-surface-container-low border border-outline-variant rounded-xl p-lg flex flex-col justify-between hover:border-primary transition-all duration-300">
+<div class="absolute top-0 right-0 p-md opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="text-[80px] leading-none">🎨</span>
+</div>
+<div>
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center mb-md">
+<span class="text-2xl">🎨</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary mb-sm">Gartic</h2>
+<p class="font-body-md text-on-surface-variant mb-md">
+                        The ultimate companion for drawing games. Find words based on length and hint letters instantly.
+                    </p>
+<div class="inline-flex items-center px-sm py-xs bg-surface-variant text-primary rounded-full font-label-md text-label-md mb-lg">
+                        12,500+ WORDS
+                    </div>
+</div>
+<button class="w-full py-md bg-primary text-on-primary font-label-md text-label-md rounded-lg scale-95 active:scale-90 transition-transform hover:bg-primary-container flex items-center justify-center gap-sm">
+                    Play Solver <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Guess The Build Card -->
+<div class="group relative overflow-hidden bg-surface-container-low border border-outline-variant rounded-xl p-lg flex flex-col justify-between hover:border-tertiary transition-all duration-300">
+<div class="absolute top-0 right-0 p-md opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="text-[80px] leading-none">🧱</span>
+</div>
+<div>
+<div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center mb-md text-white">
+<span class="text-2xl">🧱</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-tertiary mb-sm">Guess The Build</h2>
+<p class="font-body-md text-on-surface-variant mb-md">
+                        Specialized for creative building themes. Narrow down builds by block types and general categories.
+                    </p>
+<div class="inline-flex items-center px-sm py-xs bg-tertiary-fixed text-tertiary rounded-full font-label-md text-label-md mb-lg">
+                        5,800+ THEMES
+                    </div>
+</div>
+<button class="w-full py-md bg-tertiary text-on-tertiary font-label-md text-label-md rounded-lg scale-95 active:scale-90 transition-transform hover:opacity-90 flex items-center justify-center gap-sm">
+                    Play Solver <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- FAQ Section -->
+<section class="mt-xl">
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-lg text-center">Frequently Asked Questions</h3>
+<div class="space-y-sm">
+<!-- FAQ 1 -->
+<div class="faq-item group cursor-pointer border-b border-outline-variant py-md transition-colors hover:bg-surface-container-low px-md rounded-lg" onclick="toggleFaq(this)">
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm">How do the game solvers differ?</span>
+<span class="material-symbols-outlined chevron transition-transform">expand_more</span>
+</div>
+<div class="accordion-content mt-sm">
+<p class="font-body-md text-on-surface-variant">Gartic solvers focus on linguistic patterns, character counts, and revealed letters in a linear format. The Guess The Build solver is optimized for visual themes and categorized building prompts common in creative sandbox games.</p>
+</div>
+</div>
+<!-- FAQ 2 -->
+<div class="faq-item group cursor-pointer border-b border-outline-variant py-md transition-colors hover:bg-surface-container-low px-md rounded-lg" onclick="toggleFaq(this)">
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm">How do I use the solvers effectively?</span>
+<span class="material-symbols-outlined chevron transition-transform">expand_more</span>
+</div>
+<div class="accordion-content mt-sm">
+<p class="font-body-md text-on-surface-variant">Simply enter the word length and any letters that have been revealed on your screen. The Genie will instantly filter through thousands of possibilities to give you the most likely matches for the current round.</p>
+</div>
+</div>
+<!-- FAQ 3 -->
+<div class="faq-item group cursor-pointer border-b border-outline-variant py-md transition-colors hover:bg-surface-container-low px-md rounded-lg" onclick="toggleFaq(this)">
+<div class="flex justify-between items-center">
+<span class="font-headline-sm text-headline-sm">Is it free to use?</span>
+<span class="material-symbols-outlined chevron transition-transform">expand_more</span>
+</div>
+<div class="accordion-content mt-sm">
+<p class="font-body-md text-on-surface-variant">Yes! Word Genie provides unlimited access to all solver databases for both Gartic and Guess The Build themes without any hidden costs or accounts required.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-lg px-md flex flex-col md:flex-row justify-between items-center gap-sm max-w-[1920px] mx-auto bg-surface-container-low border-t border-outline-variant">
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface">Word Genie</div>
+<div class="font-label-md text-label-md text-secondary-fixed-dim space-x-md">
+<a class="hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Help Center</a>
+<a class="hover:text-primary transition-all opacity-80 hover:opacity-100" href="#">Contact</a>
+</div>
+<div class="font-label-md text-label-md text-on-surface-variant">
+            © 2024 Word Genie. All rights reserved.
+        </div>
+</footer>
+<script>
+        function toggleFaq(element) {
+            const isActive = element.classList.contains('accordion-active');
+            
+            // Close all other faqs
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('accordion-active');
+            });
+
+            // Toggle current
+            if (!isActive) {
+                element.classList.add('accordion-active');
+            }
+        }
+
+        // Hover animation logic for cards
+        document.querySelectorAll('.bento-grid > div').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body></html>
