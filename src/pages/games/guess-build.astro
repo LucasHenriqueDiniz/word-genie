@@ -1,170 +1,118 @@
 ---
 import Layout from '../../components/Layout.astro';
-import SearchBox from '../../components/SearchBox.tsx';
-import WordGrid from '../../components/WordGrid.tsx';
-import { guessBuildWords } from '../../data/words/guess-build';
-import { gameBySlug } from '../../data/games';
-import { getCategoriesFromWords, groupWordsByDifficulty } from '../../lib/search';
-import { generateBreadcrumbSchema, generateFAQSchema } from '../../lib/schema';
+import SimpleSolver from '../../components/SimpleSolver.tsx';
+import WordShowcase from '../../components/WordShowcase.tsx';
 
-const game = gameBySlug('guess-the-build')!;
-const title = `Guess The Build Word Helper | Minecraft Building Ideas | Word Genie`;
-const description = `Find perfect building words for Guess The Build. Browse ${guessBuildWords.length}+ Minecraft building ideas organized by category. Gain the competitive edge!`;
+// Import real word data
+import gtbWordsData from '../../data/words/guess-build-real.json';
 
-const categories = getCategoriesFromWords(guessBuildWords);
-const byDifficulty = groupWordsByDifficulty(guessBuildWords);
+const allWords = gtbWordsData.words;
+const exampleWords = allWords.slice(0, 16);
 
-const breadcrumbs = [
-  { label: 'Home', url: '/' },
-  { label: 'Games', url: '/games' },
-  { label: 'Guess The Build', url: '/games/guess-build' },
+const categories = [
+  { name: "Buildings", count: "1,200+ THEMES", icon: "🏢", color: "orange" },
+  { name: "Fantasy", count: "850+ THEMES", icon: "🪄", color: "orange" },
+  { name: "Objects", count: "1,500+ THEMES", icon: "📦", color: "orange" }
 ];
 
-const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
-
-const faqs = [
-  {
-    question: 'What is Guess The Build?',
-    answer: 'Guess The Build is a Minecraft game where one player builds a structure while others try to guess what it is. This tool helps you find buildable words and understand building patterns.',
-  },
-  {
-    question: 'How do I use this for building?',
-    answer: 'Browse our word list for inspiration, then build structures based on these ideas. The tool shows building difficulty so you can gauge how complex to make your structures.',
-  },
-  {
-    question: 'What are the building categories?',
-    answer: `We organize words into categories: ${categories.join(', ')}. Each category has easy, medium, and hard building challenges.`,
-  },
-  {
-    question: 'How can I get better at guessing?',
-    answer: 'Familiarize yourself with the most common words and building patterns. Study the building tips for each word to understand what builders look for when creating structures.',
-  },
-  {
-    question: 'Can I use this during ranked games?',
-    answer: 'Check your server rules before using this during competitive play. Most casual games allow reference tools, but official tournaments may have restrictions.',
-  },
+const steps = [
+  { num: 1, title: "Observe Letters", desc: "Note the word length and any revealed letters from the game UI." },
+  { num: 2, title: "Input Pattern", desc: "Type your pattern in the solver using underscores for unknowns." },
+  { num: 3, title: "Win the Game", desc: "Pick the most likely word and vote 'Legendary' on your own build!" }
 ];
-
-const faqSchema = generateFAQSchema(faqs);
 ---
 
-<Layout title={title} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+<Layout title="Guess The Build Solver - Word Genie">
+  <main class="min-h-screen bg-slate-50 dark:bg-slate-950 pb-32">
+    
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-6 text-center max-w-4xl mx-auto space-y-6">
+       <div class="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 dark:bg-orange-900/30 border border-orange-200 dark:border-orange-800 rounded-full text-[10px] font-bold text-orange-700 dark:text-orange-400 tracking-widest uppercase">
+         <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+         Minecraft Build Engine
+       </div>
+       <h1 class="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 dark:text-white">
+         Guess The Build <span class="text-orange-600">Solver</span>
+       </h1>
+       <p class="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+         Instantly find Minecraft build words for Hypixel and creative drawing games. Dominate the leaderboard with our lightning-fast word engine.
+       </p>
+    </section>
 
-  <!-- Breadcrumb -->
-  <div class="container-main py-4 text-sm">
-    <a href="/" class="text-blue-600 hover:underline">Home</a> /
-    <a href="/games" class="text-blue-600 hover:underline ml-1">Games</a> /
-    <span class="text-gray-600 ml-1">Guess The Build</span>
-  </div>
-
-  <!-- Header -->
-  <section class={`bg-gradient-to-br ${game.color} text-white py-12`}>
-    <div class="container-main">
-      <div class="flex items-center gap-4 mb-4">
-        <span class="text-5xl">{game.icon}</span>
-        <h1 class="text-4xl md:text-5xl font-bold">Guess The Build Helper</h1>
+    <!-- Solver Container -->
+    <section class="px-6 mb-32">
+      <div class="max-w-5xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-[40px] p-8 md:p-12 shadow-2xl shadow-orange-200/20 dark:shadow-none relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/5 blur-[100px] -z-0"></div>
+        <SimpleSolver client:load words={allWords} game="guess-the-build" placeholder="Enter pattern (e.g., p_tt_rn, d_n_s_ur)" />
       </div>
-      <p class="text-lg text-orange-100 mb-4">
-        {game.description}
-      </p>
-      <p class="text-orange-100">
-        Browse {guessBuildWords.length}+ building ideas organized by {categories.length} categories
-      </p>
-    </div>
-  </section>
+    </section>
 
-  <!-- Main Content -->
-  <div class="container-main py-12">
-    <!-- Quick Stats -->
-    <div class="grid grid-cols-3 gap-4 mb-8">
-      <div class="bg-orange-50 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-orange-600">{guessBuildWords.length}</div>
-        <div class="text-sm text-gray-600">Building Ideas</div>
-      </div>
-      <div class="bg-green-50 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-green-600">{byDifficulty.easy.length}</div>
-        <div class="text-sm text-gray-600">Easy Builds</div>
-      </div>
-      <div class="bg-red-50 rounded-lg p-4 text-center">
-        <div class="text-2xl font-bold text-red-600">{byDifficulty.hard.length}</div>
-        <div class="text-sm text-gray-600">Expert Builds</div>
-      </div>
-    </div>
-
-    <!-- Search Section -->
-    <div class="bg-white rounded-lg p-6 mb-8 shadow-sm">
-      <h2 class="text-2xl font-bold mb-4">Find Building Ideas</h2>
-      <SearchBox
-        client:load
-        words={guessBuildWords}
-        categories={categories}
-        onSearch={(results) => {
-          (window as any).guessBuildSearchResults = results;
-          document.dispatchEvent(new Event('guessBuildSearch'));
-        }}
-      />
-    </div>
-
-    <!-- Word Grid -->
-    <div>
-      <h2 class="text-2xl font-bold mb-4">Building Ideas</h2>
-      <div id="wordGrid">
-        <WordGrid client:load words={guessBuildWords} />
-      </div>
-    </div>
-  </div>
-
-  <!-- Tips Section -->
-  <section class="bg-gray-50 py-12">
-    <div class="container-main">
-      <h2 class="text-3xl font-bold mb-8">Building & Guessing Tips</h2>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="card">
-          <h3 class="text-xl font-bold mb-4">🏗️ Building Tips</h3>
-          <ul class="space-y-2 text-gray-700">
-            <li>• Start with recognizable shapes and silhouettes</li>
-            <li>• Use contrasting colors to make features stand out</li>
-            <li>• Build larger features first, then add details</li>
-            <li>• Think about what makes something recognizable</li>
-            <li>• Practice building common structures fast</li>
-          </ul>
+    <div class="container mx-auto px-6 space-y-32">
+      <!-- Categories -->
+      <section>
+        <div class="flex items-center gap-4 mb-12">
+           <div class="h-8 w-1.5 bg-orange-500 rounded-full"></div>
+           <h2 class="text-3xl font-black tracking-tight">Top Categories</h2>
         </div>
-
-        <div class="card">
-          <h3 class="text-xl font-bold mb-4">🔍 Guessing Tips</h3>
-          <ul class="space-y-2 text-gray-700">
-            <li>• Identify the general shape and silhouette first</li>
-            <li>• Look for distinctive features or decorations</li>
-            <li>• Guess common words before obscure ones</li>
-            <li>• Pay attention to the building material used</li>
-            <li>• Consider the theme or style of the build</li>
-          </ul>
+        <div class="grid md:grid-cols-3 gap-6">
+          {categories.map(c => (
+            <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-8 rounded-3xl group hover:border-orange-500/50 transition-all">
+               <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center text-3xl mb-6">{c.icon}</div>
+               <h3 class="text-xl font-bold mb-1">{c.name}</h3>
+               <p class="text-slate-500 text-sm leading-relaxed mb-6">Architectural structures, landmarks, and home features.</p>
+               <button class="w-full py-3 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold rounded-xl group-hover:bg-orange-500 group-hover:text-white transition-all">View List</button>
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
+
+      <!-- Featured Words -->
+      <section>
+        <WordShowcase title="Featured Themes" words={exampleWords} colorScheme="orange" client:load />
+      </section>
+
+      <!-- How it Works -->
+      <section class="bg-orange-500/5 border border-orange-500/10 rounded-[48px] py-20 px-6">
+        <h2 class="text-3xl font-black tracking-tight mb-16 text-center">How it Works</h2>
+        <div class="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+          {steps.map(s => (
+            <div class="text-center space-y-6">
+              <div class="w-16 h-16 bg-orange-600 text-white rounded-2xl flex items-center justify-center text-2xl font-black mx-auto shadow-lg shadow-orange-600/30">{s.num}</div>
+              <h3 class="text-xl font-bold">{s.title}</h3>
+              <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-black tracking-tight mb-12 text-center">Build Solver FAQ</h2>
+        <div class="space-y-4">
+          {[
+            "Is this solver compatible with Hypixel Guess The Build?",
+            "How often is the word list updated?",
+            "Does it support multi-word themes?"
+          ].map(q => (
+            <div class="p-6 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl flex justify-between items-center group cursor-pointer hover:border-orange-500/30 transition-all">
+              <span class="font-bold text-slate-700 dark:text-slate-200">{q}</span>
+              <svg class="w-5 h-5 text-slate-400 group-hover:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="bg-blue-600 rounded-[40px] p-12 text-center text-white relative overflow-hidden group">
+         <div class="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-500"></div>
+         <div class="relative z-10 max-w-2xl mx-auto space-y-8">
+            <h2 class="text-4xl font-black tracking-tight">Switch to Gartic Mode?</h2>
+            <p class="text-blue-100 opacity-90 text-lg">If you're playing Gartic.io or Skribbl, try our specialized drawing solver for even faster results.</p>
+            <a href="/games/gartic" class="inline-flex px-10 py-4 bg-white text-blue-600 font-black rounded-xl hover:scale-105 transition-transform">Gartic Solver</a>
+         </div>
+         <!-- Decorative -->
+         <div class="absolute -bottom-12 -left-12 w-48 h-48 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all"></div>
+      </section>
     </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section class="container-main py-12">
-    <h2 class="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
-
-    <div class="max-w-3xl mx-auto space-y-4">
-      {faqs.map((faq, i) => (
-        <details key={i} class="group border-l-4 border-orange-600 bg-gray-50 p-6 rounded">
-          <summary class="font-bold cursor-pointer">{faq.question}</summary>
-          <p class="mt-4 text-gray-600">{faq.answer}</p>
-        </details>
-      ))}
-    </div>
-  </section>
-
-  <!-- Disclaimer -->
-  <section class="bg-orange-50 border-l-4 border-orange-600 p-6 rounded mt-8">
-    <p class="text-sm text-gray-700">
-      <strong>Disclaimer:</strong> Word Genie is not affiliated with Minecraft, Hypixel, Mojang Studios, or any of their subsidiaries. Minecraft and Hypixel are registered trademarks. This tool is created by fans to help players enjoy the game better.
-    </p>
-  </section>
+  </main>
 </Layout>

@@ -1,0 +1,99 @@
+---
+import { WordGenieLogo } from './WordGenieLogo';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+const navLinks = [
+  { name: 'Solver', href: '/solver' },
+  { name: 'Gartic', href: '/games/gartic' },
+  { name: 'Guess Build', href: '/games/guess-build' },
+  { name: 'Stats', href: '#' }
+];
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Premium Word Solver for Gartic and Guess Build" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+	</head>
+	<body class="font-['Inter',sans-serif] selection:bg-blue-500/30">
+    <header class="fixed top-0 left-0 w-full z-50 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800">
+      <nav class="container mx-auto px-6 h-20 flex justify-between items-center">
+        <a href="/" class="hover:opacity-80 transition-opacity">
+          <WordGenieLogo />
+        </a>
+        
+        <div class="hidden md:flex items-center gap-8">
+          {navLinks.map(link => (
+            <a href={link.href} class="text-sm font-bold text-slate-500 hover:text-blue-600 transition-colors uppercase tracking-widest">{link.name}</a>
+          ))}
+        </div>
+
+        <div class="flex items-center gap-4">
+          <button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" stroke-width="2"/></svg>
+          </button>
+          <a href="/games/index" class="px-5 py-2.5 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-500 transition-colors shadow-lg shadow-blue-600/20">Get Started</a>
+        </div>
+      </nav>
+    </header>
+
+		<slot />
+
+    <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-20 px-6 mt-32">
+      <div class="container mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
+        <div class="space-y-6 max-w-xs">
+          <WordGenieLogo />
+          <p class="text-slate-500 text-sm leading-relaxed">The world's most advanced word solving engine for creative games. Built by master players for the ultimate competitive edge.</p>
+        </div>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+          <div class="space-y-4">
+            <h4 class="font-bold uppercase text-xs tracking-widest text-slate-400">Platform</h4>
+            <ul class="space-y-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+              <li><a href="#" class="hover:text-blue-600 transition-colors">Solver Hub</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition-colors">Gartic Library</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition-colors">Hypixel Build List</a></li>
+            </ul>
+          </div>
+          <div class="space-y-4">
+            <h4 class="font-bold uppercase text-xs tracking-widest text-slate-400">Support</h4>
+            <ul class="space-y-2 text-sm font-medium text-slate-600 dark:text-slate-400">
+              <li><a href="#" class="hover:text-blue-600 transition-colors">Help Center</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition-colors">Community</a></li>
+              <li><a href="#" class="hover:text-blue-600 transition-colors">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="container mx-auto pt-12 mt-12 border-t border-slate-100 dark:border-slate-900 flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+        <span>© 2024 Word Genie. All rights reserved.</span>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-blue-600 transition-colors">Twitter</a>
+          <a href="#" class="hover:text-blue-600 transition-colors">Discord</a>
+        </div>
+      </div>
+    </footer>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--accent: 59, 130, 246;
+	}
+	html {
+		scroll-behavior: smooth;
+	}
+</style>
