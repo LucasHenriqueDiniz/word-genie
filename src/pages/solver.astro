@@ -1,0 +1,123 @@
+---
+import Layout from '../components/Layout.astro';
+import SolverBox from '../components/SolverBox.tsx';
+
+// Import real word lists
+import garticWordsData from '../data/words/gartic-real.json';
+import gtbWordsData from '../data/words/guess-build-real.json';
+
+const title = 'Game Word Solver | Gartic & Guess The Build | Word Genie';
+const description = 'Solve Gartic and Guess The Build words. Enter a pattern and find matching words instantly. 6,000+ real game words.';
+
+const garticWords = garticWordsData.words;
+const gtbWords = gtbWordsData.words;
+---
+
+<Layout title={title} description={description}>
+  <div class="container-main py-12">
+    <!-- Header -->
+    <section class="text-center mb-12">
+      <h1 class="text-5xl font-bold mb-4">🔍 Game Word Solver</h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Get stuck in Gartic or Guess The Build? Enter the pattern and discover matching words instantly!
+      </p>
+      <p class="text-sm text-gray-500 mt-4">
+        📊 6,063 real game words • 🎮 2 games • ⚡ Instant results
+      </p>
+    </section>
+
+    <!-- Solvers Grid -->
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+      <!-- Gartic Solver -->
+      <div class="border-2 border-blue-200 rounded-lg p-6 bg-blue-50">
+        <h2 class="text-2xl font-bold mb-2">🎨 Gartic Solver</h2>
+        <p class="text-sm text-gray-600 mb-6">
+          {garticWords.length} drawing words • Pattern matching • Real game vocabulary
+        </p>
+        <SolverBox client:load words={garticWords} game="gartic" />
+      </div>
+
+      <!-- Guess The Build Solver -->
+      <div class="border-2 border-orange-200 rounded-lg p-6 bg-orange-50">
+        <h2 class="text-2xl font-bold mb-2">🏗️ Guess The Build Solver</h2>
+        <p class="text-sm text-gray-600 mb-6">
+          {gtbWords.length} Minecraft words • Pattern matching • Real game vocabulary
+        </p>
+        <SolverBox client:load words={gtbWords} game="guess-the-build" />
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <section class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg p-8 mb-12">
+      <h2 class="text-3xl font-bold mb-6">How to Use the Solver</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div>
+          <div class="text-4xl mb-3">1️⃣</div>
+          <h3 class="text-xl font-bold mb-2">Select Length</h3>
+          <p class="text-gray-700">
+            Click the word length you're looking for. The counter shows how many words of that length exist.
+          </p>
+        </div>
+        <div>
+          <div class="text-4xl mb-3">2️⃣</div>
+          <h3 class="text-xl font-bold mb-2">Enter Pattern</h3>
+          <p class="text-gray-700">
+            Use <code class="bg-white px-2 py-1 rounded">_</code> for unknown letters. Example: <code class="bg-white px-2 py-1 rounded">ca_</code> finds "cat", "can", "cap".
+          </p>
+        </div>
+        <div>
+          <div class="text-4xl mb-3">3️⃣</div>
+          <h3 class="text-xl font-bold mb-2">Copy & Play</h3>
+          <p class="text-gray-700">
+            Click any result to copy it to clipboard. Paste into your game and continue playing!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Examples -->
+    <section class="bg-white border border-gray-200 rounded-lg p-8">
+      <h2 class="text-3xl font-bold mb-6">Example Patterns</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-lg font-bold mb-3">Gartic Examples</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li><code class="bg-gray-100 px-2 py-1 rounded">cat</code> → exact word</li>
+            <li><code class="bg-gray-100 px-2 py-1 rounded">c__</code> → 3 letters, starts with "c"</li>
+            <li><code class="bg-gray-100 px-2 py-1 rounded">_o_</code> → 3 letters, second is "o"</li>
+            <li><code class="bg-gray-100 px-2 py-1 rounded">ele____</code> → 7 letters, starts with "ele"</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-3">Guess The Build Examples</h3>
+          <ul class="space-y-2 text-gray-700">
+            <li><code class="bg-gray-100 px-2 py-1 rounded">castle</code> → exact word</li>
+            <li><code class="bg-gray-100 px-2 py-1 rounded">____</code> → 4-letter words</li>
+            <li><code class="bg-gray-100 px-2 py-1 rounded">p__a__</code> → 6 letters, starts with "p"</li>
+            <li><code class="bg-gray-100 px-2 py-1 rounded">house</code> → common building</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="mt-12 grid md:grid-cols-4 gap-4">
+      <div class="bg-blue-100 border border-blue-300 rounded-lg p-4 text-center">
+        <div class="text-3xl font-bold text-blue-600">{garticWords.length}</div>
+        <div class="text-sm text-gray-700">Gartic Words</div>
+      </div>
+      <div class="bg-orange-100 border border-orange-300 rounded-lg p-4 text-center">
+        <div class="text-3xl font-bold text-orange-600">{gtbWords.length}</div>
+        <div class="text-sm text-gray-700">GTB Words</div>
+      </div>
+      <div class="bg-purple-100 border border-purple-300 rounded-lg p-4 text-center">
+        <div class="text-3xl font-bold text-purple-600">{garticWords.length + gtbWords.length}</div>
+        <div class="text-sm text-gray-700">Total Words</div>
+      </div>
+      <div class="bg-green-100 border border-green-300 rounded-lg p-4 text-center">
+        <div class="text-3xl font-bold text-green-600">100%</div>
+        <div class="text-sm text-gray-700">Real Game Data</div>
+      </div>
+    </section>
+  </div>
+</Layout>
